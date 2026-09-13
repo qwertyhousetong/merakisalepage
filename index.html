@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meraki — Seed Cycling ปรับสมดุลฮอร์โมนตามธรรมชาติ</title>
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Noto Sans Thai -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- QRCode.js (Pure Vector QR Generation - 100% Offline) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        meraki: {
+                            red: '#B71C1C',
+                            'red-vibrant': '#D62828',
+                            'red-dark': '#8E1414',
+                            'red-light': '#FDE8EB',
+                            pink: '#F8B4C0',
+                            'pink-soft': '#FFF1F3',
+                            'pink-accent': '#FF4D6D',
+                            cream: '#FCF9F6',
+                            'cream-card': '#FAF4EE',
+                            'cream-dark': '#EFE6DC',
+                            cacao: '#1C0D0B',
+                            'cacao-muted': '#38221F',
+                            border: '#EED9D3',
+                            'border-hover': '#D9AFA5',
+                            warmgrey: '#634743',
+                            muted: '#8D706C'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', '"Noto Sans Thai"', 'system-ui', '-apple-system', 'sans-serif'],
+                        helvetica: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'apple-glass': '0 20px 40px -15px rgba(28, 13, 11, 0.07), 0 0 0 1px rgba(238, 217, 211, 0.65)',
+                        'apple-glow': '0 12px 36px -6px rgba(183, 28, 28, 0.28)',
+                        'card-lift': '0 24px 48px -12px rgba(28, 13, 11, 0.09), 0 4px 16px -2px rgba(28, 13, 11, 0.04)',
+                        'inner-pill': 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        'float': '0 30px 60px -15px rgba(183, 28, 28, 0.18)'
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        :root {
+            color-scheme: light;
+        }
+        body {
+            background-color: #F7F3EE;
+            color: #1C0D0B;
+            font-family: "Helvetica Neue", Helvetica, Arial, "Noto Sans Thai", system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Strict Helvetica enforcement for numbers, prices, tags, and codes */
+        .font-num, .font-helvetica, [class*="tracking-wide"], .currency-symbol, .price-display {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            accent-color: #B71C1C;
+        }
+        html {
+            scroll-padding-top: 76px;
+        }
+        details[open] summary .chevron-icon {
+            transform: rotate(180deg);
+        }
+        /* Hide scrollbars while preserving touch scrollability */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+    </style>
+</head>
+<body class="relative text-base selection:bg-meraki-pink selection:text-meraki-cacao min-h-screen">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-meraki-red via-meraki-red-vibrant to-meraki-red text-white py-2 px-4 text-xs font-semibold tracking-wide shadow-xs">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <span class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                <span>⚡ ส่งฟรี ปั่นสดใหม่ทุกวัน</span>
+            </span>
+            <span class="text-[11px] bg-white/20 px-2.5 py-0.5 rounded-full font-helvetica font-medium tracking-wide">
+                FRESH BATCH • FREE DELIVERY
+            </span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-meraki-border px-4 sm:px-6 py-3 transition-all shadow-xs">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-meraki-red to-meraki-red-vibrant flex items-center justify-center text-white text-sm shadow-apple-glow">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div class="leading-none">
+                    <span class="text-xl font-black font-helvetica tracking-wider text-meraki-cacao block">MERAKI</span>
+                    <span class="text-[9px] uppercase font-helvetica tracking-widest text-meraki-muted font-bold block mt-0.5">HORMONAL NUTRITION</span>
+                </div>
+            </a>
+            
+            <div class="flex items-center gap-2.5">
+                <span class="text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5 shadow-inner-pill">
+                    <i class="fa-solid fa-leaf text-[10px] text-emerald-600"></i> ธรรมชาติ 100%
+                </span>
+                
+                <a href="#checkout" class="px-4 py-1.5 rounded-full bg-meraki-red text-white text-xs font-bold hover:bg-meraki-red-dark active:scale-95 transition shadow-apple-glow">
+                    สั่งซื้อด่วน
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-12">
+
+        <!-- 01 — HERO SECTION -->
+        <section class="pt-4 sm:pt-8 text-center space-y-6">
+            
+            <!-- Category Tag -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-meraki-border shadow-apple-glass text-xs font-bold text-meraki-red">
+                <i class="fa-solid fa-seedling text-[11px]"></i>
+                <span>Seed Cycling คืออะไร?</span>
+            </div>
+
+            <!-- Main Headline -->
+            <div class="space-y-3 max-w-2xl mx-auto">
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-meraki-cacao leading-tight">
+                    การเลือกทานเมล็ดพืชรวม <br>
+                    เพื่อเติมสารอาหารที่เหมาะกับร่างกาย <br>
+                    <span class="text-meraki-red">ในแต่ละช่วงของรอบเดือน</span>
+                </h1>
+                <p class="text-xs sm:text-sm text-meraki-warmgrey font-medium leading-relaxed">
+                    ปรับสมดุลตามธรรมชาติ ลดอาการก่อนมีประจำเดือน (PMS) ปวดท้อง และสิวฮอร์โมน โดยไม่ต้องพึ่งฮอร์โมนสังเคราะห์
+                </p>
+            </div>
+
+            <!-- 9:16 VERTICAL HERO VIDEO (PORTRAIT REEL) -->
+            <div class="max-w-[280px] sm:max-w-[310px] mx-auto relative rounded-[32px] overflow-hidden border-4 border-white shadow-card-lift bg-meraki-cacao group">
+                <div class="relative w-full aspect-[9/16] bg-meraki-cacao flex items-center justify-center">
+                    <video id="hero-vertical-video" playsinline loop muted class="w-full h-full object-cover">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                    </video>
+
+                    <!-- Video Dark Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/65 pointer-events-none"></div>
+
+                    <!-- Video Header Tag -->
+                    <div class="absolute top-4 left-4 right-4 flex items-center justify-between text-white text-[11px] font-bold z-10">
+                        <span class="bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>ROUTINE วันละ 1 ช้อน</span>
+                        </span>
+                        <button type="button" onclick="toggleVideoMute()" class="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition">
+                            <i id="video-mute-icon" class="fa-solid fa-volume-xmark text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Center Play/Pause Trigger -->
+                    <button type="button" onclick="toggleHeroVerticalVideo()" class="absolute inset-0 flex items-center justify-center group-hover:scale-105 transition">
+                        <div class="w-14 h-14 rounded-full bg-white/90 text-meraki-red flex items-center justify-center shadow-apple-glow text-lg">
+                            <i id="hero-play-icon" class="fa-solid fa-play ml-1"></i>
+                        </div>
+                    </button>
+
+                    <!-- Bottom Reel Caption -->
+                    <div class="absolute bottom-4 inset-x-4 text-left text-white text-xs z-10 space-y-1">
+                        <div class="font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-[11px]"></i>
+                            <span>ตักโรยโยเกิร์ตหรือสมูทตี้ ทานง่ายทุกเช้า</span>
+                        </div>
+                        <p class="text-[10px] text-white/80 leading-snug">
+                            Phase 1 (เมล็ดฟักทอง + แฟลกซ์) & Phase 2 (เมล็ดงา + ทานตะวัน) คั่วบดสดใหม่คงคุณค่า Omega-3
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emotional Resonance Text & Common Symptoms -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-meraki-border shadow-apple-glass max-w-2xl mx-auto space-y-4 text-center">
+                <p class="text-xs sm:text-sm text-meraki-warmgrey leading-relaxed font-medium">
+                    บางเดือนเราไม่ได้ขี้หงุดหงิด ไม่ได้คิดมาก และไม่ได้อ่อนแอ <br>
+                    แค่ร่างกายกำลังเปลี่ยนไปตามระดับฮอร์โมนในรอบเดือนมากกว่าที่เราคิด
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-bold text-meraki-cacao pt-1">
+                    <div class="p-2.5 bg-meraki-cream rounded-2xl border border-meraki-border">สิวฮอร์โมนที่คาง</div>
+                    <div class="p-2.5 bg-meraki-cream rounded-2xl border border-meraki-border">ตัวบวม คัดหน้าอก</div>
+                    <div class="p-2.5 bg-meraki-cream rounded-2xl border border-meraki-border">อยากกินของหวาน</div>
+                    <div class="p-2.5 bg-meraki-cream rounded-2xl border border-meraki-border">ปวดเกร็งท้องเมนส์</div>
+                    <div class="p-2.5 bg-meraki-cream rounded-2xl border border-meraki-border">อารมณ์ดิ่ง แปรปรวน</div>
+                    <div class="p-2.5 bg-meraki-pink-soft text-meraki-red rounded-2xl border border-meraki-pink">รอบเดือนมาไม่สม่ำเสมอ</div>
+                </div>
+
+                <div class="pt-2 text-xs sm:text-sm text-meraki-cacao font-bold">
+                    เฉลี่ยเริ่มต้นเพียง <span class="text-meraki-red text-base font-helvetica font-extrabold">฿56/วัน</span> น้อยกว่ากาแฟ 1 แก้ว
+                </div>
+            </div>
+
+        </section>
+
+        <!-- INTERACTIVE: 28-DAY CYCLE SIMULATOR -->
+        <section class="bg-white rounded-[32px] p-6 sm:p-8 border border-meraki-border shadow-card-lift space-y-6">
+            <div class="text-center space-y-1">
+                <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">INTERACTIVE SIMULATOR</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-meraki-cacao">สำรวจร่างกายตามรอบเดือน 28 วัน</h2>
+                <p class="text-xs text-meraki-warmgrey">เลื่อนแถบเพื่อดูการเปลี่ยนแปลงของฮอร์โมน และการทำงานของเมล็ดพืชแต่ละช่วง</p>
+            </div>
+
+            <!-- Interactive Day Slider -->
+            <div class="space-y-2 max-w-md mx-auto">
+                <div class="flex items-center justify-between text-xs font-bold text-meraki-cacao">
+                    <span id="sim-day-display" class="font-helvetica text-base font-black text-meraki-red">วันที่ 1</span>
+                    <span id="sim-phase-badge" class="px-3 py-1 rounded-full text-xs font-black bg-meraki-pink-soft text-meraki-red border border-meraki-pink">
+                        🌱 Phase 1 : Follicular
+                    </span>
+                </div>
+                <input type="range" id="cycle-slider" min="1" max="28" value="1" oninput="updateCycleSimulator(this.value)" class="w-full h-2.5 bg-meraki-cream-dark rounded-lg appearance-none cursor-pointer accent-meraki-red">
+                <div class="flex justify-between text-[10px] text-meraki-muted font-helvetica font-bold px-1">
+                    <span>DAY 1 (ประจำเดือนมา)</span>
+                    <span>DAY 14 (ไข่ตก)</span>
+                    <span>DAY 28 (เตรียมรอบใหม่)</span>
+                </div>
+            </div>
+
+            <!-- Dynamic State Card -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div class="p-4 rounded-2xl bg-meraki-cream border border-meraki-border space-y-1.5">
+                    <span class="text-[10px] uppercase tracking-wider font-bold text-meraki-muted block">สภาวะฮอร์โมนในร่างกาย</span>
+                    <h3 id="sim-state-title" class="font-extrabold text-sm text-meraki-cacao">สร้างเยื่อบุมดลูก & เอสโตรเจนเด่น</h3>
+                    <p id="sim-state-desc" class="text-xs text-meraki-warmgrey leading-relaxed">
+                        ระดับเอสโตรเจนค่อยๆ ไต่ระดับ ร่างกายต้องการสารอาหารเพื่อเสริมความแข็งแรงของไข่และระบบรังไข่
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-meraki-pink-soft border border-meraki-pink space-y-1.5">
+                    <span class="text-[10px] uppercase tracking-wider font-bold text-meraki-red block">โภชนาการ SEED CYCLING ที่ต้องทาน</span>
+                    <h3 id="sim-seeds-title" class="font-extrabold text-sm text-meraki-red">ทานถุง Phase 1 : เมล็ดฟักทอง + แฟลกซ์</h3>
+                    <p id="sim-seeds-desc" class="text-xs text-meraki-warmgrey leading-relaxed">
+                        อุดมด้วย Zinc, Magnesium และ Lignans ช่วยสนับสนุนฮอร์โมนเอสโตรเจนให้สมดุล ไม่คั่งค้าง
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04 — PHASE BREAKDOWN -->
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">04 — NUTRITION BREAKDOWN</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-meraki-cacao">ถุง Phase 1 กับ Phase 2 ต่างกันอย่างไร?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Phase 1 Card -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-meraki-border shadow-apple-glass space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full bg-meraki-cream border border-meraki-border text-meraki-red text-xs font-black">
+                            🌱 PHASE 1
+                        </span>
+                        <span class="text-xs font-bold font-helvetica text-meraki-cacao">DAY 1 – 14 ของรอบเดือน</span>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-meraki-cacao">เมล็ดฟักทอง + เมล็ดแฟลกซ์</h3>
+                    <p class="text-xs text-meraki-warmgrey leading-relaxed font-medium">
+                        แหล่งสารอาหารสกัดจากธรรมชาติบริสุทธิ์: <br>
+                        <strong class="text-meraki-cacao font-helvetica">Zinc • Magnesium • Fiber • Lignans • Omega-3</strong>
+                    </p>
+                    <p class="text-xs text-meraki-muted leading-relaxed">
+                        บำรุงในครึ่งแรกของรอบเดือน ช่วยเคลียร์เอสโตรเจนส่วนเกิน ป้องกันการเกิดสิวคางและอาการคัดตึง
+                    </p>
+                    <div class="pt-2 border-t border-meraki-border text-xs font-black text-meraki-red">
+                        🥄 ขนาดรับประทาน: วันละ 1 ช้อนโต๊ะ
+                    </div>
+                </div>
+
+                <!-- Phase 2 Card -->
+                <div class="bg-gradient-to-b from-meraki-pink-soft to-white rounded-3xl p-6 border-2 border-meraki-red shadow-apple-glow space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full bg-meraki-red text-white text-xs font-black shadow-xs">
+                            🌻 PHASE 2
+                        </span>
+                        <span class="text-xs font-bold font-helvetica text-meraki-cacao">DAY 15 ถึงรอบถัดไป</span>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-meraki-cacao">เมล็ดงา + เมล็ดทานตะวัน</h3>
+                    <p class="text-xs text-meraki-warmgrey leading-relaxed font-medium">
+                        แหล่งสารอาหารจำเป็นสำหรับครึ่งหลังของรอบเดือน: <br>
+                        <strong class="text-meraki-cacao font-helvetica">Vitamin E • Selenium • Magnesium • Vitamin B6</strong>
+                    </p>
+                    <p class="text-xs text-meraki-muted leading-relaxed">
+                        สนับสนุนการสร้างโปรเจสเตอโรนตามธรรมชาติ ลดอาการบวมน้ำ อารมณ์เหวี่ยง และความอยากแป้งน้ำตาล
+                    </p>
+                    <div class="pt-2 border-t border-meraki-border text-xs font-black text-meraki-red">
+                        🥄 ขนาดรับประทาน: วันละ 1 ช้อนโต๊ะ
+                    </div>
+                </div>
+            </div>
+
+            <!-- Routine Eating Badges -->
+            <div class="bg-meraki-cream rounded-2xl p-4 border border-meraki-border text-center space-y-2">
+                <span class="text-xs font-extrabold text-meraki-cacao block">ทานง่าย ไม่ต้องเปลี่ยนวิถีชีวิตเดิม</span>
+                <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-meraki-warmgrey">
+                    <span class="bg-white px-3 py-1 rounded-full border border-meraki-border shadow-xs">โรยโยเกิร์ต</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-meraki-border shadow-xs">ใส่สมูทตี้</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-meraki-border shadow-xs">ชงดื่มกับนม</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-meraki-border shadow-xs">โรยหน้าสลัด</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-meraki-border shadow-xs">ทานพร้อมมื้อเช้า</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE: SYMPTOM MATCHER QUIZ -->
+        <section class="bg-white rounded-[32px] p-6 sm:p-8 border border-meraki-border shadow-card-lift space-y-6">
+            <div class="text-center space-y-1">
+                <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">SELF-ASSESSMENT QUIZ</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-meraki-cacao">เช็กอาการของคุณ: แมตช์เซ็ตที่เหมาะสมที่สุด</h2>
+                <p class="text-xs text-meraki-warmgrey">แตะเลือกอาการที่คุณมักพบเจอก่อนหรือระหว่างรอบเดือน</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-bold text-meraki-cacao">
+                <label class="p-3 rounded-2xl border border-meraki-border bg-meraki-cream hover:bg-meraki-pink-soft cursor-pointer flex items-center gap-2.5 transition">
+                    <input type="checkbox" name="symptom" value="cramp" checked onchange="calculateSymptomMatch()" class="w-4 h-4 rounded">
+                    <span>ปวดท้องประจำเดือน ต้องกินยาแก้ปวดเป็นประจำ</span>
+                </label>
+                <label class="p-3 rounded-2xl border border-meraki-border bg-meraki-cream hover:bg-meraki-pink-soft cursor-pointer flex items-center gap-2.5 transition">
+                    <input type="checkbox" name="symptom" value="acne" checked onchange="calculateSymptomMatch()" class="w-4 h-4 rounded">
+                    <span>มีสิวฮอร์โมนเห่อที่คางและกรอบหน้าก่อนเมนส์มา</span>
+                </label>
+                <label class="p-3 rounded-2xl border border-meraki-border bg-meraki-cream hover:bg-meraki-pink-soft cursor-pointer flex items-center gap-2.5 transition">
+                    <input type="checkbox" name="symptom" value="mood" checked onchange="calculateSymptomMatch()" class="w-4 h-4 rounded">
+                    <span>อารมณ์เหวี่ยง นอยด์ หงุดหงิดง่าย คุมตัวเองยาก</span>
+                </label>
+                <label class="p-3 rounded-2xl border border-meraki-border bg-meraki-cream hover:bg-meraki-pink-soft cursor-pointer flex items-center gap-2.5 transition">
+                    <input type="checkbox" name="symptom" value="bloat" onchange="calculateSymptomMatch()" class="w-4 h-4 rounded">
+                    <span>ตัวบวม คัดตึงหน้าอก อึดอัดตัวทุกครั้งก่อนมีรอบเดือน</span>
+                </label>
+                <label class="p-3 rounded-2xl border border-meraki-border bg-meraki-cream hover:bg-meraki-pink-soft cursor-pointer flex items-center gap-2.5 transition">
+                    <input type="checkbox" name="symptom" value="irregular" onchange="calculateSymptomMatch()" class="w-4 h-4 rounded">
+                    <span>ประจำเดือนมาไม่ตรง รอบขาดหาย หรือมีภาวะ PCOS</span>
+                </label>
+                <label class="p-3 rounded-2xl border border-meraki-border bg-meraki-cream hover:bg-meraki-pink-soft cursor-pointer flex items-center gap-2.5 transition">
+                    <input type="checkbox" name="symptom" value="craving" onchange="calculateSymptomMatch()" class="w-4 h-4 rounded">
+                    <span>อยากของหวาน หิวแป้งบ่อย เหนื่อยง่าย เพลียสะสม</span>
+                </label>
+            </div>
+
+            <!-- Dynamic Quiz Result Display -->
+            <div class="p-5 rounded-3xl bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-border flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="space-y-1 text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start gap-2">
+                        <span id="quiz-match-percent" class="px-2.5 py-0.5 rounded-full bg-meraki-red text-white text-[11px] font-helvetica font-extrabold">ความเข้ากัน 99%</span>
+                        <span class="text-xs font-bold text-meraki-red">โภชนาการตรงจุด</span>
+                    </div>
+                    <h3 id="quiz-result-title" class="text-base font-extrabold text-meraki-cacao">แนะนำ: เซ็ต 2 หรือ 3 เดือน เพื่อปรับสมดุลครบ 2-3 วงจร</h3>
+                    <p id="quiz-result-desc" class="text-xs text-meraki-warmgrey max-w-lg leading-relaxed">
+                        คุณมีอาการ PMS และสัญญาณฮอร์โมนแกว่งค่อนข้างเด่นชัด การทานต่อเนื่อง 2-3 เดือนจะช่วยให้รังไข่ปรับสมดุลและลดการอักเสบได้อย่างยั่งยืนที่สุดค่ะ
+                    </p>
+                </div>
+                <button type="button" onclick="autoSelectRecommendedPackage()" class="px-5 py-2.5 rounded-full bg-meraki-red text-white text-xs font-bold hover:bg-meraki-red-dark transition shadow-apple-glow shrink-0">
+                    เลือกเซ็ตแนะนำทันที
+                </button>
+            </div>
+        </section>
+
+        <!-- 06 — SOCIAL PROOF & CAROUSELS -->
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">06 — REAL COMMUNITY</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-meraki-cacao">สาวๆ Meraki กับ Routine ประจำวัน</h2>
+                <p class="text-xs text-meraki-warmgrey">ภาพการทานจริงจากลูกค้ากว่า 5,000+ เซ็ตทั่วประเทศ</p>
+            </div>
+
+            <!-- COMPONENT 1: GIRLS MERAKI SLIDER (4:5 RATIO, 10 PHOTOS, CLEAN & SEAMLESS) -->
+            <div class="relative group">
+                <div id="girls-meraki-slider" class="flex gap-3 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1">
+                    <!-- 10 Seamless 4:5 Cards -->
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 1" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 2" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 3" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 4" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 5" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 6" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 7" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 8" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 9" class="w-full h-full object-cover">
+                    </div>
+                    <div class="shrink-0 w-44 sm:w-52 aspect-[4/5] rounded-3xl overflow-hidden shadow-apple-glass border border-meraki-border bg-meraki-cream">
+                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500&auto=format&fit=crop&q=80" alt="Meraki routine 10" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex items-center justify-end gap-2 mt-2">
+                    <button type="button" onclick="scrollGirlsSlider('left')" class="w-8 h-8 rounded-full bg-white border border-meraki-border flex items-center justify-center text-meraki-cacao hover:bg-meraki-pink-soft transition shadow-xs text-xs">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button type="button" onclick="scrollGirlsSlider('right')" class="w-8 h-8 rounded-full bg-white border border-meraki-border flex items-center justify-center text-meraki-cacao hover:bg-meraki-pink-soft transition shadow-xs text-xs">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- COMPONENT 2: 1:1 LINE CHAT REVIEWS (10 SLIDING CARDS) -->
+            <div class="space-y-2 pt-4">
+                <div class="flex items-center justify-between px-1">
+                    <span class="text-xs font-black text-meraki-cacao">เสียงตอบรับจริงจาก LINE Official</span>
+                    <div class="flex items-center gap-1 text-amber-500 text-xs font-helvetica font-bold">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        <span class="text-meraki-cacao ml-1">4.9/5 จากผู้ใช้จริง</span>
+                    </div>
+                </div>
+
+                <div id="chat-reviews-slider" class="flex gap-3 overflow-x-auto no-scrollbar scroll-smooth py-2 px-1">
+                    <!-- Review 1 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-helvetica font-bold text-xs">N</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณน้ำหวาน</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">2 hours ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “ปกติสิวที่คางจะเห่อก่อนเมนส์มาตลอด ทานเซ็ต 2 เดือน สิวคางแทบไม่ขึ้นเลย ประทับใจมากค่ะ”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full self-start border border-emerald-200">✓ สิวฮอร์โมนลดลง</span>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-rose-100 text-rose-800 flex items-center justify-center font-helvetica font-bold text-xs">O</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณออยล์</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">Yesterday</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “วันแรกเมนส์มาไม่ต้องพึ่งยาพอนสแตนเลย ทำงานต่อได้สบาย ไม่ปวดเกร็งหน้ามืดเหมือนแต่ก่อน”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-rose-700 font-bold bg-rose-50 px-2 py-0.5 rounded-full self-start border border-rose-200">✓ หายปวดท้องเมนส์</span>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center font-helvetica font-bold text-xs">P</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณแพรว</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">3 days ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “เมนส์ขาดไป 2 เดือนกว่าเพราะเครียดงาน กินตามตารางไม่ถึงเดือน เมนส์กลับมาแล้วค่ะ ดีใจมากก”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-purple-700 font-bold bg-purple-50 px-2 py-0.5 rounded-full self-start border border-purple-200">✓ ประจำเดือนกลับมา</span>
+                    </div>
+
+                    <!-- Review 4 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-helvetica font-bold text-xs">F</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณฟ้า</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">4 days ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “ช่วงก่อนเมนส์อารมณ์ไม่ดิ่ง ไม่หงุดหงิดใส่แฟน แฟนยังทักว่าช่วงนี้นิ่งขึ้นเยอะมากค่ะ 555”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded-full self-start border border-amber-200">✓ อารมณ์เสถียรขึ้น</span>
+                    </div>
+
+                    <!-- Review 5 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-helvetica font-bold text-xs">G</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณเกรซ</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">5 days ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “เป็น PCOS รอบเดือนเคยห่างถึง 50 วัน พอเข้าเดือนที่ 2 รอบเริ่มนิ่งมาที่ 32 วันแล้วค่ะ”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-blue-700 font-bold bg-blue-50 px-2 py-0.5 rounded-full self-start border border-blue-200">✓ บรรเทาภาวะ PCOS</span>
+                    </div>
+
+                    <!-- Review 6 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-pink-100 text-pink-800 flex items-center justify-center font-helvetica font-bold text-xs">M</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณมุก</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">1 week ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “ตัวบวมน้อยลงมากกก ปกติต้องเปลี่ยนไซส์กางเกงช่วงมีรอบเดือน ตอนนี้สบายตัวขึ้นเยอะ”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-pink-700 font-bold bg-pink-50 px-2 py-0.5 rounded-full self-start border border-pink-200">✓ ลดอาการบวมน้ำ</span>
+                    </div>
+
+                    <!-- Review 7 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center font-helvetica font-bold text-xs">B</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณโบว์</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">1 week ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “กลิ่นคั่วสดใหม่มาก ไม่หืนเลย เคยซื้อมาบดเองแป๊บเดียวเหม็นหืน ของที่นี่คือสด กรุบกรอบอร่อย”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-teal-700 font-bold bg-teal-50 px-2 py-0.5 rounded-full self-start border border-teal-200">✓ หอมสดใหม่ ไม่เหม็นหืน</span>
+                    </div>
+
+                    <!-- Review 8 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center font-helvetica font-bold text-xs">J</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณจูน</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">2 weeks ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “คัดตึงเต้านมน้อยลงมาก เวลาเดินหรือใส่บราไม่เจ็บทรมานเหมือนเมื่อก่อน ชอบมากๆ สั่งซ้ำแน่นอน”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-indigo-700 font-bold bg-indigo-50 px-2 py-0.5 rounded-full self-start border border-indigo-200">✓ ลดอาการคัดหน้าอก</span>
+                    </div>
+
+                    <!-- Review 9 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-orange-100 text-orange-800 flex items-center justify-center font-helvetica font-bold text-xs">A</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณแอน</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">2 weeks ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “สะดวกมาก ไม่ต้องเสียเวลาเตรียมหรือจำสูตร ตักวันละช้อนโรยอาหารเช้า จบเลยค่ะ”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-orange-700 font-bold bg-orange-50 px-2 py-0.5 rounded-full self-start border border-orange-200">✓ ทานง่าย ประหยัดเวลา</span>
+                    </div>
+
+                    <!-- Review 10 -->
+                    <div class="shrink-0 w-60 aspect-square rounded-3xl p-4 bg-white border border-meraki-border shadow-apple-glass flex flex-col justify-between text-xs">
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-helvetica font-bold text-xs">K</div>
+                                <div class="leading-none">
+                                    <strong class="text-meraki-cacao block font-bold">คุณก้อย</strong>
+                                    <span class="text-[10px] text-meraki-muted font-helvetica">3 weeks ago</span>
+                                </div>
+                            </div>
+                            <p class="text-meraki-warmgrey leading-relaxed">
+                                “เพื่อนที่ทำงานป้ายยามาอีกที ตอนนี้แนะนำให้พี่สาวทานด้วยแล้วค่ะ ดีต่อระบบข้างในผู้หญิงจริงๆ”
+                            </p>
+                        </div>
+                        <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full self-start border border-emerald-200">✓ บอกต่อคนใกล้ชิด</span>
+                    </div>
+                </div>
+
+                <!-- Chat Slider Controls -->
+                <div class="flex items-center justify-end gap-2">
+                    <button type="button" onclick="scrollChatReviews('left')" class="w-8 h-8 rounded-full bg-white border border-meraki-border flex items-center justify-center text-meraki-cacao hover:bg-meraki-pink-soft transition shadow-xs text-xs">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button type="button" onclick="scrollChatReviews('right')" class="w-8 h-8 rounded-full bg-white border border-meraki-border flex items-center justify-center text-meraki-cacao hover:bg-meraki-pink-soft transition shadow-xs text-xs">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 08 — CLINICAL TRIAL EVIDENCE -->
+        <section class="bg-white rounded-[32px] p-6 sm:p-8 border border-meraki-border shadow-card-lift space-y-4">
+            <div class="space-y-1 text-center sm:text-left border-b border-meraki-border pb-3">
+                <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">CLINICAL OBSERVATION</span>
+                <h3 class="text-xl font-extrabold text-meraki-cacao">ผลการติดตามผู้ใช้ต่อเนื่อง 3 เดือน</h3>
+                <p class="text-xs text-meraki-warmgrey">
+                    การศึกษาผลลัพธ์จากกลุ่มตัวอย่างผู้หญิงที่รับประทาน Seed Cycling ต่อเนื่องพบพัฒนาการที่ดีขึ้นในทุกมิติ:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm font-bold text-emerald-950">
+                <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3">
+                    <span class="text-xl font-helvetica font-black text-emerald-700">72%↑</span>
+                    <span>ระบบทางเดินอาหารและขับถ่ายทำงานสมดุลขึ้น</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3">
+                    <span class="text-xl font-helvetica font-black text-emerald-700">75%↑</span>
+                    <span>อาการก่อนมีประจำเดือน (PMS) รุนแรงน้อยลง</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3">
+                    <span class="text-xl font-helvetica font-black text-emerald-700">77%↑</span>
+                    <span>อาการปวดเกร็งช่องท้องลดลงอย่างมีนัยสำคัญ</span>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3">
+                    <span class="text-xl font-helvetica font-black text-emerald-700">80%↑</span>
+                    <span>อาการคัดตึงเต้านมลดลง สบายตัวมากขึ้น</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10 — PACKAGES & CHECKOUT -->
+        <section id="checkout" class="space-y-6 pt-4">
+            
+            <div class="text-center space-y-1">
+                <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">OFFERS & CHECKOUT</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-meraki-cacao">เลือกแพ็กเกจที่คุณต้องการ</h2>
+                <p class="text-xs text-meraki-warmgrey">ปั่นสดใหม่ทุกรอบ • จัดส่งฟรี Flash Express ทั่วไทย</p>
+                
+                <!-- Countdown Urgency -->
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-meraki-red-light text-meraki-red border border-meraki-border text-xs font-bold mt-2">
+                    <i class="fa-regular fa-clock text-[11px]"></i>
+                    <span>รอบปั่นสดใหม่ปิดรับใน: <span id="countdown-timer" class="font-helvetica font-extrabold">05:28:44</span></span>
+                </div>
+            </div>
+
+            <!-- Packages Radio Select Cards -->
+            <div class="space-y-3">
+                
+                <!-- Package 1: 1 Month -->
+                <label class="package-item block relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-3xl p-5 cursor-pointer transition shadow-card-lift">
+                    <input type="radio" name="pack_select" value="set1" data-title="เซ็ตทดลอง (2 ถุง สำหรับ 1 เดือน)" data-price="1790" onchange="onPackageSelect(this)" class="sr-only">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span class="custom-radio w-5 h-5 rounded-full border-2 border-meraki-border flex items-center justify-center shrink-0">
+                                    <span class="dot w-2.5 h-2.5 rounded-full bg-transparent"></span>
+                                </span>
+                                <span class="font-extrabold text-base text-meraki-cacao">เซ็ตทดลอง (สำหรับ 1 เดือน)</span>
+                            </div>
+                            <p class="text-xs text-meraki-warmgrey pl-7 font-medium">
+                                รวม 2 ถุง สำหรับ 1 รอบเดือน (Phase 1 และ Phase 2)
+                            </p>
+                            <div class="text-xs text-meraki-red font-bold pl-7 flex items-center gap-1.5">
+                                <span>🌿 ปั่นส่งสดใหม่ • พร้อมช้อนตวงและคู่มือ</span>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <div class="text-2xl font-helvetica font-extrabold text-meraki-cacao">฿1,790</div>
+                            <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full block mt-1">ส่งฟรี</span>
+                        </div>
+                    </div>
+                </label>
+
+                <!-- Package 2: 2 Months (RECOMMENDED) -->
+                <label class="package-item active block relative bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-red rounded-3xl p-5 cursor-pointer transition shadow-float ring-2 ring-meraki-red/30">
+                    <input type="radio" name="pack_select" value="set2" data-title="เซ็ต 2 เดือน (4 ถุง สำหรับ 2 เดือน)" data-price="4680" checked onchange="onPackageSelect(this)" class="sr-only">
+                    
+                    <span class="absolute -top-3 right-6 bg-meraki-red text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full shadow-apple-glow">
+                        🔥 แนะนำสำหรับการปรับสมดุลต่อเนื่อง
+                    </span>
+
+                    <div class="flex items-start justify-between gap-4 pt-1">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span class="custom-radio w-5 h-5 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 shadow-xs">
+                                    <span class="dot w-2.5 h-2.5 rounded-full bg-white"></span>
+                                </span>
+                                <span class="font-extrabold text-base text-meraki-cacao">เซ็ต 2 เดือน (สำหรับ 2 เดือน)</span>
+                            </div>
+                            <p class="text-xs text-meraki-warmgrey pl-7 font-medium">
+                                รวม 4 ถุง ครอบคลุมการปรับวงจรฮอร์โมนต่อเนื่อง 2 รอบเดือน
+                            </p>
+                            <div class="text-xs text-meraki-red font-bold pl-7 flex items-center gap-1.5">
+                                <span>🌿 ปั่นส่งสดใหม่ • ฟื้นฟูอาการ PMS ชัดเจน</span>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <div class="text-2xl sm:text-3xl font-helvetica font-extrabold text-meraki-red">฿4,680</div>
+                            <span class="text-[11px] font-bold text-rose-800 bg-rose-100 px-2.5 py-0.5 rounded-full block mt-1">ยอดนิยมสูงสุด</span>
+                        </div>
+                    </div>
+                </label>
+
+                <!-- Package 3: 3 Months Complete -->
+                <label class="package-item block relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-3xl p-5 cursor-pointer transition shadow-card-lift">
+                    <input type="radio" name="pack_select" value="set3" data-title="เซ็ต 3 เดือน (6 ถุง สำหรับ 3 เดือน)" data-price="8888" onchange="onPackageSelect(this)" class="sr-only">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span class="custom-radio w-5 h-5 rounded-full border-2 border-meraki-border flex items-center justify-center shrink-0">
+                                    <span class="dot w-2.5 h-2.5 rounded-full bg-transparent"></span>
+                                </span>
+                                <span class="font-extrabold text-base text-meraki-cacao">เซ็ต 3 เดือน (สำหรับ 3 เดือน)</span>
+                            </div>
+                            <p class="text-xs text-meraki-warmgrey pl-7 font-medium">
+                                รวม 6 ถุง ฟื้นฟูระบบรังไข่และวงจรฮอร์โมนครบ 3 ไซเคิล
+                            </p>
+                            <div class="text-xs text-meraki-red font-bold pl-7 flex items-center gap-1.5">
+                                <span>🌿 ปั่นส่งสดใหม่ • คุ้มค่าที่สุด เฉลี่ย ฿56/วัน</span>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <div class="text-2xl font-helvetica font-extrabold text-meraki-cacao">฿8,888</div>
+                            <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full block mt-1">ส่งฟรี</span>
+                        </div>
+                    </div>
+                </label>
+
+            </div>
+
+            <!-- CHECKOUT FORM CARD -->
+            <form id="order-form" onsubmit="handleFormSubmit(event)" class="bg-white rounded-[32px] border border-meraki-border p-5 sm:p-8 space-y-6 shadow-card-lift">
+                
+                <!-- Step 1: Formula Selection -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2 border-b border-meraki-border pb-2">
+                        <span class="w-6 h-6 rounded-full bg-meraki-red text-white text-xs font-helvetica font-bold flex items-center justify-center">1</span>
+                        <h3 class="font-bold text-sm sm:text-base text-meraki-cacao">เลือกสูตรที่เหมาะกับคุณ <span class="text-meraki-red">*</span></h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-2.5">
+                        <label class="formula-option relative p-3.5 rounded-2xl border-2 border-meraki-red bg-meraki-pink-soft cursor-pointer flex items-start gap-3 transition">
+                            <input type="radio" name="formula_select" value="formula1" checked onchange="onFormulaSelect(this)" class="sr-only">
+                            <span class="formula-radio w-5 h-5 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                                <span class="formula-dot w-2 h-2 rounded-full bg-white"></span>
+                            </span>
+                            <div class="space-y-0.5">
+                                <strong class="text-xs sm:text-sm font-extrabold text-meraki-cacao block">1. ดูแลฮอร์โมนทั่วไป / PCOS / ทานยาคุม / วัยทอง</strong>
+                                <p class="text-xs text-meraki-warmgrey">
+                                    สูตรมาตรฐานสำหรับทานสลับ 2 ช่วงรอบเดือนเพื่อสนับสนุนสมดุลฮอร์โมนธรรมชาติ
+                                </p>
+                            </div>
+                        </label>
+
+                        <label class="formula-option relative p-3.5 rounded-2xl border-2 border-meraki-border bg-white hover:border-meraki-red cursor-pointer flex items-start gap-3 transition">
+                            <input type="radio" name="formula_select" value="formula2" onchange="onFormulaSelect(this)" class="sr-only">
+                            <span class="formula-radio w-5 h-5 rounded-full border-2 border-meraki-border bg-transparent flex items-center justify-center shrink-0 mt-0.5">
+                                <span class="formula-dot w-2 h-2 rounded-full bg-transparent"></span>
+                            </span>
+                            <div class="space-y-0.5">
+                                <strong class="text-xs sm:text-sm font-extrabold text-meraki-cacao block">2. Endo / ประจำเดือนขาด</strong>
+                                <p class="text-xs text-meraki-warmgrey">
+                                    สูตรผสมเฉพาะเน้นลดการอักเสบช่องท้อง และฟื้นฟูสำหรับผู้ที่มีประจำเดือนขาดหาย
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 2: Shipping Address Details -->
+                <div class="space-y-3 pt-2">
+                    <div class="flex items-center gap-2 border-b border-meraki-border pb-2">
+                        <span class="w-6 h-6 rounded-full bg-meraki-red text-white text-xs font-helvetica font-bold flex items-center justify-center">2</span>
+                        <h3 class="font-bold text-sm sm:text-base text-meraki-cacao">ข้อมูลผู้รับและที่อยู่จัดส่ง</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <div>
+                            <label class="block font-medium text-meraki-cacao mb-1">ชื่อ-นามสกุล <span class="text-meraki-red">*</span></label>
+                            <input type="text" id="cust_name" required placeholder="เช่น คุณวิภาดา ใจดี" class="w-full px-4 py-2.5 rounded-2xl border border-meraki-border focus:outline-none focus:ring-2 focus:ring-meraki-red bg-meraki-cream text-sm">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-meraki-cacao mb-1">เบอร์โทรศัพท์ <span class="text-meraki-red">*</span></label>
+                            <input type="tel" id="cust_phone" required placeholder="เช่น 0812345678" pattern="[0-9]{9,10}" class="w-full px-4 py-2.5 rounded-2xl border border-meraki-border focus:outline-none focus:ring-2 focus:ring-meraki-red bg-meraki-cream font-helvetica text-sm">
+                        </div>
+                    </div>
+
+                    <div class="text-xs sm:text-sm">
+                        <label class="block font-medium text-meraki-cacao mb-1">ที่อยู่จัดส่งโดยละเอียด <span class="text-meraki-red">*</span></label>
+                        <textarea id="cust_addr" required rows="3" placeholder="เลขที่บ้าน ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์" class="w-full px-4 py-2.5 rounded-2xl border border-meraki-border focus:outline-none focus:ring-2 focus:ring-meraki-red bg-meraki-cream text-sm"></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment Section (PromptPay EMVCo Vector QR) -->
+                <div class="space-y-3 pt-2">
+                    <div class="flex items-center justify-between border-b border-meraki-border pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-meraki-red text-white text-xs font-helvetica font-bold flex items-center justify-center">3</span>
+                            <h3 class="font-bold text-sm sm:text-base text-meraki-cacao">วิธีชำระเงิน</h3>
+                        </div>
+                        <span class="text-[11px] font-bold text-meraki-red bg-meraki-pink-soft px-2.5 py-0.5 rounded-full">
+                            โอนชำระ • จัดส่งฟรี
+                        </span>
+                    </div>
+
+                    <div class="p-4 rounded-3xl bg-meraki-cream border border-meraki-border space-y-4">
+                        <div class="text-center space-y-1">
+                            <span class="text-xs text-meraki-warmgrey font-medium">ยอดชำระสุทธิ:</span>
+                            <div id="checkout-amount-display" class="text-3xl font-helvetica font-extrabold text-meraki-red">฿4,680</div>
+                        </div>
+
+                        <!-- Dynamic Vector QR Box -->
+                        <div class="bg-white p-4 rounded-2xl border border-meraki-border max-w-[230px] mx-auto text-center space-y-2.5 shadow-xs">
+                            <div id="qrcode-box" class="w-[160px] h-[160px] mx-auto flex items-center justify-center bg-white p-1 rounded-xl"></div>
+                            
+                            <div class="leading-tight">
+                                <span class="text-xs font-bold text-meraki-cacao block">สแกนผ่าน Mobile Banking</span>
+                                <span class="text-[10px] text-meraki-muted block mt-0.5">พร้อมเพย์: <strong class="text-meraki-cacao font-helvetica font-bold">081-234-5678</strong></span>
+                            </div>
+
+                            <button type="button" onclick="downloadQRCode()" class="w-full py-1.5 px-2 bg-meraki-cream hover:bg-meraki-pink-soft text-meraki-cacao rounded-xl text-[11px] font-bold border border-meraki-border transition flex items-center justify-center gap-1.5 shadow-xs">
+                                <i class="fa-solid fa-download text-meraki-red text-[10px]"></i>
+                                <span>บันทึกภาพ QR ลงเครื่อง</span>
+                            </button>
+                        </div>
+
+                        <!-- Bank Account Detail Card -->
+                        <div class="p-3 bg-white rounded-2xl border border-meraki-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                            <div>
+                                <div class="font-bold text-meraki-cacao">ธนาคารกสิกรไทย (KBANK)</div>
+                                <div class="text-meraki-warmgrey text-xs">เลขบัญชี: <strong id="acc-number" class="text-meraki-red font-helvetica font-bold text-sm">123-2-98765-4</strong></div>
+                                <div class="text-[10px] text-meraki-muted">ชื่อบัญชี: บจก. เมรากิ เฮลท์ (ประเทศไทย)</div>
+                            </div>
+                            <button type="button" onclick="copyAccountToClipboard()" class="px-3 py-1.5 rounded-xl bg-meraki-cream text-meraki-red font-bold border border-meraki-border hover:bg-meraki-pink-soft transition shrink-0 shadow-xs">
+                                <i class="fa-regular fa-copy mr-1"></i> คัดลอกเลขบัญชี
+                            </button>
+                        </div>
+
+                        <!-- Slip Upload Field -->
+                        <div class="space-y-2 pt-1">
+                            <label class="block font-bold text-xs sm:text-sm text-meraki-cacao">
+                                แนบหลักฐานการโอนเงิน (สลิป): <span class="text-meraki-red">*</span>
+                            </label>
+
+                            <div onclick="document.getElementById('slip-file').click()" class="border-2 border-dashed border-meraki-border hover:border-meraki-red bg-white rounded-2xl p-4 text-center cursor-pointer transition">
+                                <input type="file" id="slip-file" accept="image/*" class="hidden" onchange="handleSlipFile(event)">
+                                
+                                <div id="slip-empty-view" class="space-y-1">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-meraki-red"></i>
+                                    <div class="text-xs font-bold text-meraki-cacao">แตะที่นี่เพื่อเลือกรูปสลิป</div>
+                                    <div class="text-[10px] text-meraki-muted font-helvetica">JPG, PNG</div>
+                                </div>
+
+                                <div id="slip-loaded-view" class="hidden space-y-2">
+                                    <img id="slip-preview" src="" alt="Slip Preview" class="max-h-40 mx-auto rounded-lg shadow-xs border">
+                                    <div class="text-xs text-emerald-700 font-bold">✓ แนบสลิปเรียบร้อยแล้ว</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-4 rounded-full bg-meraki-red text-white text-base font-bold hover:bg-meraki-red-dark active:scale-[0.99] transition shadow-card-lift flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>ยืนยันการสั่งซื้อสินค้า</span>
+                    </button>
+                    <p class="text-[11px] text-center text-meraki-muted mt-2 font-helvetica font-medium">
+                        FRESHLY GROUND • 100% NATURAL • FREE SHIPPING
+                    </p>
+                </div>
+
+            </form>
+
+        </section>
+
+        <!-- 12 — FAQ -->
+        <section class="bg-white rounded-[32px] p-6 sm:p-8 border border-meraki-border shadow-apple-glass space-y-4">
+            <div class="text-center space-y-1">
+                <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">QUESTIONS & ANSWERS</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-meraki-cacao">คำถามที่พบบ่อย</h2>
+            </div>
+
+            <div class="space-y-2 text-xs sm:text-sm">
+                <details class="group p-4 rounded-2xl bg-meraki-cream border border-meraki-border">
+                    <summary class="font-bold text-meraki-cacao cursor-pointer list-none flex items-center justify-between">
+                        <span>ถ้าประจำเดือนมาไม่ตรง หรือขาดหายไป ทานยังไง?</span>
+                        <i class="fa-solid fa-chevron-down chevron-icon text-xs text-meraki-warmgrey transition-transform"></i>
+                    </summary>
+                    <p class="text-meraki-warmgrey mt-2 pt-2 border-t border-meraki-border/60 leading-relaxed">
+                        สามารถเริ่มทานตามรอบพระจันทร์ได้ทันทีค่ะ โดยเริ่ม Phase 1 ในคืนเดือนมืด (New Moon) เป็นเวลา 14 วัน และสลับไป Phase 2 ในคืนวันเพ็ญ (Full Moon) อีก 14 วัน เพื่อช่วยรีเซ็ตจังหวะวงจรฮอร์โมนในร่างกาย
+                    </p>
+                </details>
+
+                <details class="group p-4 rounded-2xl bg-meraki-cream border border-meraki-border">
+                    <summary class="font-bold text-meraki-cacao cursor-pointer list-none flex items-center justify-between">
+                        <span>ต้องเก็บรักษายังไง สดใหม่อยู่ได้นานแค่ไหน?</span>
+                        <i class="fa-solid fa-chevron-down chevron-icon text-xs text-meraki-warmgrey transition-transform"></i>
+                    </summary>
+                    <p class="text-meraki-warmgrey mt-2 pt-2 border-t border-meraki-border/60 leading-relaxed">
+                        เมื่อได้รับพัสดุแล้ว ควรนำเข้าตู้เย็นช่องธรรมดาทันทีค่ะ เพื่อคงคุณค่ากรดไขมันจำเป็น Omega-3 และวิตามิน สามารถเก็บในตู้เย็นได้นานถึง 3 เดือน
+                    </p>
+                </details>
+
+                <details class="group p-4 rounded-2xl bg-meraki-cream border border-meraki-border">
+                    <summary class="font-bold text-meraki-cacao cursor-pointer list-none flex items-center justify-between">
+                        <span>กินร่วมกับยาคุมกำเนิดได้ไหม?</span>
+                        <i class="fa-solid fa-chevron-down chevron-icon text-xs text-meraki-warmgrey transition-transform"></i>
+                    </summary>
+                    <p class="text-meraki-warmgrey mt-2 pt-2 border-t border-meraki-border/60 leading-relaxed">
+                        สามารถทานเสริมเป็นโภชนาการควบคู่กันได้ค่ะ โดยยาคุมเม็ดที่ 1-14 ทานคู่ Phase 1 และเม็ดที่ 15 จนหมดแผงทานคู่ Phase 2 แต่หากมีโรคประจำตัวหรือยาเฉพาะทาง แนะนำปรึกษาแพทย์ผู้ดูแลก่อนเริ่มเสมอค่ะ
+                    </p>
+                </details>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Order Success Receipt Modal -->
+    <div id="order-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs hidden">
+        <div class="bg-white rounded-[32px] max-w-md w-full p-6 space-y-4 shadow-card-lift border border-meraki-border text-center max-h-[92vh] overflow-y-auto">
+            
+            <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto shadow-xs">
+                <i class="fa-solid fa-heart-circle-check"></i>
+            </div>
+
+            <div class="space-y-1">
+                <span class="text-xs font-helvetica font-bold text-meraki-red uppercase tracking-wider">THANK YOU FOR YOUR ORDER</span>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-meraki-cacao">ขอบคุณสำหรับคำสั่งซื้อค่ะ!</h3>
+                <p class="text-xs text-meraki-warmgrey">เราได้รับข้อมูลออเดอร์และสลิปเรียบร้อยแล้ว พร้อมเตรียมปั่นสดใหม่เพื่อคุณ</p>
+            </div>
+
+            <!-- Receipt Breakdown -->
+            <div class="p-4 bg-meraki-cream rounded-2xl text-left text-xs space-y-2 border border-meraki-border">
+                <div class="flex justify-between border-b border-meraki-border pb-1.5">
+                    <span class="text-meraki-warmgrey">เลขที่คำสั่งซื้อ:</span>
+                    <strong id="receipt-id" class="text-meraki-red font-helvetica font-bold">#MRK-8291</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-meraki-warmgrey">แพ็กเกจที่เลือก:</span>
+                    <span id="receipt-item" class="font-bold text-meraki-cacao text-right">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-meraki-warmgrey">สูตรที่เลือก:</span>
+                    <span id="receipt-formula" class="font-extrabold text-meraki-red text-right">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-meraki-warmgrey">ยอดชำระสุทธิ:</span>
+                    <strong id="receipt-amount" class="text-meraki-red font-helvetica font-bold">-</strong>
+                </div>
+                <div class="flex justify-between border-t border-meraki-border pt-1.5">
+                    <span class="text-meraki-warmgrey">ผู้รับ:</span>
+                    <span id="receipt-name" class="font-medium text-meraki-cacao">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-meraki-warmgrey">เบอร์ติดต่อ:</span>
+                    <span id="receipt-phone" class="font-helvetica font-medium text-meraki-cacao">-</span>
+                </div>
+                <div>
+                    <span class="text-meraki-warmgrey block">ที่อยู่จัดส่ง:</span>
+                    <p id="receipt-addr" class="text-meraki-cacao mt-0.5 leading-snug">-</p>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="space-y-2 pt-1">
+                <button type="button" onclick="openConsumptionGuide()" class="w-full py-3 bg-meraki-red hover:bg-meraki-red-dark text-white rounded-full font-bold text-xs sm:text-sm shadow-apple-glow transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <span>กดดูวิธีทานสูตรของคุณทันที</span>
+                </button>
+
+                <a id="line-direct-btn" href="#" target="_blank" class="w-full py-2.5 bg-[#06C755] hover:bg-[#05b14c] text-white rounded-full font-bold text-xs shadow-xs transition flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-line text-base"></i>
+                    <span>ส่งสลิปยืนยันทาง LINE เพื่อรับเลขพัสดุ</span>
+                </a>
+
+                <button type="button" onclick="closeOrderReceipt()" class="w-full py-2 text-meraki-warmgrey text-xs font-semibold hover:text-meraki-cacao transition">
+                    เสร็จสิ้น / ปิดหน้านี้
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Consumption Guide Modal -->
+    <div id="guide-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs hidden">
+        <div class="bg-white rounded-[32px] max-w-lg w-full p-6 space-y-4 shadow-card-lift border border-meraki-border max-h-[92vh] overflow-y-auto text-left">
+            <div class="flex items-center justify-between border-b border-meraki-border pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-meraki-pink-soft text-meraki-red flex items-center justify-center font-bold text-xs">
+                        <i class="fa-solid fa-bowl-food"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-base text-meraki-cacao">คู่มือการรับประทาน</h4>
+                        <span id="guide-formula-tag" class="text-[11px] text-meraki-red font-bold">สูตรที่เลือก</span>
+                    </div>
+                </div>
+                <button type="button" onclick="closeConsumptionGuide()" class="w-7 h-7 rounded-full bg-meraki-cream text-meraki-cacao flex items-center justify-center hover:bg-meraki-border transition text-xs">
+                    ✕
+                </button>
+            </div>
+
+            <div id="guide-dynamic-content" class="space-y-3 text-xs sm:text-sm text-meraki-cacao"></div>
+
+            <button type="button" onclick="closeConsumptionGuide()" class="w-full py-2.5 bg-meraki-cream hover:bg-meraki-border text-meraki-cacao rounded-full font-bold text-xs transition">
+                เข้าใจแล้ว / ปิดหน้าต่าง
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Verified Customer Result Toast -->
+    <div id="live-sales-toast" class="fixed bottom-20 left-4 z-40 max-w-[290px] sm:max-w-xs bg-white/95 backdrop-blur-md rounded-2xl p-3 border border-meraki-border shadow-card-lift transition-all duration-500 opacity-0 translate-y-3 pointer-events-none">
+        <div class="flex items-start gap-2.5">
+            <div id="toast-avatar" class="w-7 h-7 rounded-full bg-meraki-red-light text-meraki-red flex items-center justify-center font-helvetica font-extrabold text-xs shrink-0 mt-0.5">
+                N
+            </div>
+            <div class="space-y-0.5 text-xs leading-snug">
+                <div class="flex items-center gap-1.5">
+                    <span id="toast-buyer-name" class="font-bold text-meraki-cacao">คุณน้ำหวาน</span>
+                    <span class="text-[9px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">✓ เห็นผลจริง</span>
+                </div>
+                <p id="toast-buyer-review" class="text-meraki-warmgrey text-[11px] font-medium leading-tight">
+                    “สิวที่คางก่อนเมนส์ไม่เห่อแล้วค่ะ ผิวเนียนขึ้นเยอะมาก”
+                </p>
+                <div class="flex items-center gap-1 text-[10px] text-amber-500 font-helvetica pt-0.5">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <span id="toast-buyer-tag" class="text-meraki-muted text-[9px] ml-1">• ทานเข้าเดือนที่ 2</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Sticky Purchase Bar -->
+    <div class="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-meraki-border p-3 shadow-card-lift sm:hidden">
+        <div class="max-w-md mx-auto flex items-center justify-between gap-3">
+            <div>
+                <span class="text-[10px] text-meraki-warmgrey block">เซ็ตที่เลือก:</span>
+                <div id="sticky-price-text" class="text-base font-helvetica font-bold text-meraki-red leading-tight">
+                    ฿4,680 <span class="text-[10px] text-emerald-700 font-normal">(ส่งฟรี)</span>
+                </div>
+            </div>
+            <a href="#checkout" class="px-5 py-2.5 rounded-full bg-meraki-red text-white text-xs font-bold hover:bg-meraki-red-dark transition shadow-apple-glow flex items-center gap-1.5 active:scale-95">
+                <span>สั่งซื้อทันที</span>
+                <i class="fa-solid fa-arrow-down text-[10px]"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notify" class="fixed top-16 right-4 z-50 bg-meraki-cacao text-white text-xs py-2.5 px-4 rounded-xl shadow-card-lift hidden transition-all">
+        <span id="toast-text">คัดลอกเลขบัญชีเรียบร้อยแล้ว</span>
+    </div>
+
+    <script>
+        let isVideoToggling = false;
+
+        async function toggleHeroVerticalVideo() {
+            const video = document.getElementById('hero-vertical-video');
+            const icon = document.getElementById('hero-play-icon');
+            if (!video || isVideoToggling) return;
+
+            isVideoToggling = true;
+            try {
+                if (video.paused) {
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        await playPromise;
+                    }
+                    if (icon) {
+                        icon.classList.remove('fa-play', 'ml-1');
+                        icon.classList.add('fa-pause');
+                    }
+                } else {
+                    video.pause();
+                    if (icon) {
+                        icon.classList.remove('fa-pause');
+                        icon.classList.add('fa-play', 'ml-1');
+                    }
+                }
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    console.warn('Video playback notice:', err);
+                }
+            } finally {
+                isVideoToggling = false;
+            }
+        }
+
+        function toggleVideoMute() {
+            const video = document.getElementById('hero-vertical-video');
+            const icon = document.getElementById('video-mute-icon');
+            if (!video) return;
+            video.muted = !video.muted;
+            if (icon) {
+                icon.className = video.muted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high text-emerald-400';
+            }
+            showToast(video.muted ? 'ปิดเสียงวิดีโอ' : 'เปิดเสียงวิดีโอ');
+        }
+
+        function updateCycleSimulator(val) {
+            const day = parseInt(val, 10);
+            const dayDisplay = document.getElementById('sim-day-display');
+            const badge = document.getElementById('sim-phase-badge');
+            const stateTitle = document.getElementById('sim-state-title');
+            const stateDesc = document.getElementById('sim-state-desc');
+            const seedsTitle = document.getElementById('sim-seeds-title');
+            const seedsDesc = document.getElementById('sim-seeds-desc');
+
+            if (dayDisplay) dayDisplay.innerText = `วันที่ ${day}`;
+
+            if (day <= 14) {
+                badge.innerText = '🌱 Phase 1 : Follicular';
+                badge.className = 'px-3 py-1 rounded-full text-xs font-black inline-block mt-0.5 bg-meraki-pink-soft text-meraki-red border border-meraki-pink';
+                stateTitle.innerText = 'สร้างเยื่อบุมดลูก & เอสโตรเจนเด่น';
+                stateDesc.innerText = 'ระดับเอสโตรเจนค่อยๆ ไต่ระดับ ร่างกายต้องการสารอาหารเพื่อเสริมความแข็งแรงของไข่และระบบรังไข่';
+                seedsTitle.innerText = 'ทานถุง Phase 1 : เมล็ดฟักทอง + แฟลกซ์';
+                seedsDesc.innerText = 'อุดมด้วย Zinc, Magnesium และ Lignans ช่วยสนับสนุนฮอร์โมนเอสโตรเจนให้สมดุล ไม่คั่งค้าง';
+            } else {
+                badge.innerText = '🌻 Phase 2 : Luteal';
+                badge.className = 'px-3 py-1 rounded-full text-xs font-black inline-block mt-0.5 bg-rose-100 text-rose-800 border border-rose-300';
+                stateTitle.innerText = 'ช่วงหลังไข่ตก & โปรเจสเตอโรนขึ้น';
+                stateDesc.innerText = 'ร่างกายเตรียมพร้อมสำหรับรอบเดือนถัดไป ต้องการสารอาหารเพื่อลดอาการบวม อารมณ์เหวี่ยง และความอยากแป้ง';
+                seedsTitle.innerText = 'ทานถุง Phase 2 : เมล็ดงา + ทานตะวัน';
+                seedsDesc.innerText = 'อุดมด้วย Vitamin E, Selenium และ B6 ช่วยซัพพอร์ตการสร้างโปรเจสเตอโรน ลดอาการ PMS อย่างตรงจุด';
+            }
+        }
+
+        function calculateSymptomMatch() {
+            const checkedBoxes = document.querySelectorAll('input[name="symptom"]:checked');
+            const count = checkedBoxes.length;
+            const title = document.getElementById('quiz-result-title');
+            const desc = document.getElementById('quiz-result-desc');
+            const match = document.getElementById('quiz-match-percent');
+
+            if (count >= 3) {
+                title.innerText = 'แนะนำ: เซ็ต 2 หรือ 3 เดือน เพื่อปรับสมดุลครบ 2-3 วงจร';
+                desc.innerText = 'คุณมีอาการ PMS และสัญญาณฮอร์โมนแกว่งค่อนข้างเด่นชัด การทานต่อเนื่อง 2-3 เดือนจะช่วยให้รังไข่ปรับสมดุลและลดการอักเสบได้อย่างยั่งยืนที่สุดค่ะ';
+                match.innerText = 'ความเข้ากัน 99%';
+            } else {
+                title.innerText = 'แนะนำ: เซ็ต 2 เดือน (4 ถุง) เพื่อการปรับรอบการฟื้นฟูต่อเนื่อง';
+                desc.innerText = 'อาการที่คุณเลือก บ่งชี้ว่าระดับฮอร์โมนเริ่มมีการแกว่งตามรอบเดือน การเสริมโภชนาการ Seed Cycling วันละ 1 ช้อน จะช่วยลดอาการก่อนเมนส์มาได้อย่างเห็นผลค่ะ';
+                match.innerText = 'ความเข้ากัน 95%';
+            }
+        }
+
+        function autoSelectRecommendedPackage() {
+            const set2Radio = document.querySelector('input[name="pack_select"][value="set2"]');
+            if (set2Radio) {
+                set2Radio.checked = true;
+                onPackageSelect(set2Radio);
+            }
+            const checkoutEl = document.getElementById('checkout');
+            if (checkoutEl) checkoutEl.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollGirlsSlider(direction) {
+            const slider = document.getElementById('girls-meraki-slider');
+            if (!slider) return;
+            slider.scrollBy({ left: direction === 'left' ? -210 : 210, behavior: 'smooth' });
+        }
+
+        function scrollChatReviews(direction) {
+            const slider = document.getElementById('chat-reviews-slider');
+            if (!slider) return;
+            slider.scrollBy({ left: direction === 'left' ? -265 : 265, behavior: 'smooth' });
+        }
+
+        const PROMPTPAY_NUMBER = "0812345678"; 
+        const LINE_OA_URL = "https://line.me/R/ti/p/@merakiofficial";
+
+        let currentPackageTitle = "เซ็ต 2 เดือน (4 ถุง สำหรับ 2 เดือน)";
+        let currentPackagePrice = 4680;
+        let currentFormulaId = "formula1";
+        let currentFormulaTitle = "1. ดูแลฮอร์โมนทั่วไป / PCOS / ทานยาคุม / วัยทอง";
+        let slipDataUrl = null;
+
+        // Countdown Timer
+        let totalSeconds = 5 * 3600 + 28 * 60 + 44;
+        setInterval(() => {
+            if (totalSeconds > 0) {
+                totalSeconds--;
+                const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+                const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+                const s = String(totalSeconds % 60).padStart(2, '0');
+                const el = document.getElementById('countdown-timer');
+                if (el) el.innerText = `${h}:${m}:${s}`;
+            }
+        }, 1000);
+
+        const customerReviews = [
+            { initial: "N", name: "คุณน้ำหวาน (ทานเข้าเดือนที่ 2)", tag: "สิวฮอร์โมนที่คางลดลง", review: "“ปกติก่อนเมนส์มา สิวที่คางจะเห่อหนักมาก รอบนี้ไม่มีสิวคางขึ้นเลยแม้แต่เม็ดเดียว ผิวเนียนขึ้นมากค่ะ!”" },
+            { initial: "O", name: "คุณออย (ทานสูตร Phase 1-2)", tag: "ไม่ปวดท้องเมนส์แล้ว", review: "“วันแรกเมนส์มาไม่ต้องกินพอนสแตนเลยค่ะ ทำงานได้ปกติ คัดตึงหน้าอกน้อยลงเยอะมาก ประทับใจสุดๆ”" },
+            { initial: "P", name: "คุณแพรว (ทานตามรอบพระจันทร์)", tag: "ประจำเดือนขาด กลับมาแล้ว", review: "“เมนส์ขาดไป 2 เดือนครึ่งเพราะเครียดสะสม ทานตามตารางที่แนะนำ เมื่อเช้าเมนส์กลับมาแล้วค่ะ โล่งใจมากก”" },
+            { initial: "F", name: "คุณฟ้า (เชียงใหม่ • ทานต่อเนื่อง)", tag: "อารมณ์ช่วง PMS เสถียรขึ้น", review: "“ช่วงก่อนเมนส์ใจนิ่งขึ้นเยอะ ไม่นอยด์ไม่เหวี่ยง รู้สึกเป็นตัวเองขึ้นเยอะ ไม่ดาวน์เหมือนแต่ก่อนค่ะ”" },
+            { initial: "G", name: "คุณเกรซ (มีภาวะ PCOS)", tag: "รอบเดือนเริ่มตรง 32 วัน", review: "“เป็น PCOS รอบเดือนเคยห่างถึง 50 วัน พอทานครบ 2 เดือน รอบเริ่มกลับมา 32 วันแล้วค่ะ ดีใจมาก”" },
+            { initial: "M", name: "คุณมุก (เซ็ต 2 เดือน)", tag: "ลดอาการบวมน้ำ สบายตัว", review: "“ก่อนเมนส์ชอบตัวบวมใส่กางเกงไม่ได้ ตอนนี้ตัวเบาขึ้น หน้าท้องไม่อืดอัด ขับถ่ายตรงเวลาทุกเช้า”" }
+        ];
+
+        let reviewIndex = 0;
+        function cycleReviewToast() {
+            const toast = document.getElementById('live-sales-toast');
+            if (!toast) return;
+
+            const item = customerReviews[reviewIndex];
+            document.getElementById('toast-avatar').innerText = item.initial;
+            document.getElementById('toast-buyer-name').innerText = item.name;
+            document.getElementById('toast-buyer-review').innerText = item.review;
+            document.getElementById('toast-buyer-tag').innerText = `• ${item.tag}`;
+
+            toast.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+            }, 5500);
+
+            reviewIndex = (reviewIndex + 1) % customerReviews.length;
+        }
+
+        setTimeout(() => {
+            cycleReviewToast();
+            setInterval(cycleReviewToast, 11000);
+        }, 2000);
+
+        function calculateCRC16(payload) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < payload.length; i++) {
+                crc ^= payload.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) crc = (crc << 1) ^ 0x1021;
+                    else crc = crc << 1;
+                }
+            }
+            return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        function createTLV(tag, val) {
+            const strVal = String(val);
+            const len = strVal.length.toString().padStart(2, '0');
+            return tag + len + strVal;
+        }
+
+        function generatePromptPayEMVCo(recipient, amount) {
+            let sanitized = recipient.replace(/[^0-9]/g, '');
+            let subTag = "01";
+
+            if (sanitized.length >= 10 && sanitized.startsWith('0')) {
+                sanitized = '0066' + sanitized.substring(1);
+                subTag = "01";
+            } else if (sanitized.length === 13) {
+                subTag = "02";
+            }
+
+            const merchantInfo = createTLV("00", "A000000677010111") + createTLV(subTag, sanitized);
+            const tag29 = createTLV("29", merchantInfo);
+
+            let rawPayload = 
+                createTLV("00", "01") +
+                createTLV("01", amount ? "12" : "11") +
+                tag29 +
+                createTLV("53", "764") +
+                (amount ? createTLV("54", Number(amount).toFixed(2)) : "") +
+                createTLV("58", "TH") +
+                createTLV("63", "04");
+
+            return rawPayload + calculateCRC16(rawPayload);
+        }
+
+        function renderQRCode(amount) {
+            const container = document.getElementById('qrcode-box');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const emvcoPayload = generatePromptPayEMVCo(PROMPTPAY_NUMBER, amount);
+
+            new QRCode(container, {
+                text: emvcoPayload,
+                width: 160,
+                height: 160,
+                colorDark: "#1C0D0B",
+                colorLight: "#FFFFFF",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        }
+
+        function downloadQRCode() {
+            const qrCanvas = document.querySelector('#qrcode-box canvas');
+            if (!qrCanvas) return;
+            const link = document.createElement('a');
+            link.download = `PromptPay-Meraki-${currentPackagePrice}THB.png`;
+            link.href = qrCanvas.toDataURL('image/png');
+            link.click();
+            showToast("บันทึกภาพ QR Code ลงเครื่องแล้วค่ะ");
+        }
+
+        function onPackageSelect(radioInput) {
+            currentPackageTitle = radioInput.getAttribute('data-title');
+            currentPackagePrice = parseInt(radioInput.getAttribute('data-price'), 10);
+
+            document.getElementById('checkout-amount-display').innerText = `฿${currentPackagePrice.toLocaleString()}`;
+            document.getElementById('sticky-price-text').innerHTML = `฿${currentPackagePrice.toLocaleString()} <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">ส่งฟรี</span>`;
+
+            document.querySelectorAll('.package-item').forEach(item => {
+                item.classList.remove('active', 'border-meraki-red', 'bg-gradient-to-r', 'from-meraki-pink-soft', 'to-white', 'ring-2', 'ring-meraki-red/30', 'shadow-float');
+                item.classList.add('border-meraki-border', 'bg-white', 'shadow-card-lift');
+                const dot = item.querySelector('.dot');
+                const radioBox = item.querySelector('.custom-radio');
+                if (dot) dot.classList.replace('bg-white', 'bg-transparent');
+                if (radioBox) {
+                    radioBox.classList.remove('bg-meraki-red', 'border-meraki-red');
+                    radioBox.classList.add('border-meraki-border');
+                }
+            });
+
+            const parent = radioInput.closest('.package-item');
+            parent.classList.add('active', 'border-meraki-red', 'bg-gradient-to-r', 'from-meraki-pink-soft', 'to-white', 'ring-2', 'ring-meraki-red/30', 'shadow-float');
+            parent.classList.remove('border-meraki-border', 'bg-white', 'shadow-card-lift');
+
+            const activeDot = parent.querySelector('.dot');
+            const activeRadioBox = parent.querySelector('.custom-radio');
+            if (activeDot) activeDot.classList.replace('bg-transparent', 'bg-white');
+            if (activeRadioBox) {
+                activeRadioBox.classList.add('bg-meraki-red', 'border-meraki-red');
+                activeRadioBox.classList.remove('border-meraki-border');
+            }
+
+            renderQRCode(currentPackagePrice);
+        }
+
+        function onFormulaSelect(radioInput) {
+            currentFormulaId = radioInput.value;
+            currentFormulaTitle = radioInput.value === 'formula1' 
+                ? "1. ดูแลฮอร์โมนทั่วไป / PCOS / ทานยาคุม / วัยทอง"
+                : "2. Endo / ประจำเดือนขาด";
+
+            document.querySelectorAll('.formula-option').forEach(opt => {
+                opt.classList.remove('border-meraki-red', 'bg-meraki-pink-soft');
+                opt.classList.add('border-meraki-border', 'bg-white');
+                const fRadio = opt.querySelector('.formula-radio');
+                const fDot = opt.querySelector('.formula-dot');
+                if (fRadio) {
+                    fRadio.classList.remove('bg-meraki-red', 'border-meraki-red');
+                    fRadio.classList.add('border-meraki-border', 'bg-transparent');
+                }
+                if (fDot) {
+                    fDot.classList.remove('bg-white');
+                    fDot.classList.add('bg-transparent');
+                }
+            });
+
+            const parent = radioInput.closest('.formula-option');
+            parent.classList.add('border-meraki-red', 'bg-meraki-pink-soft');
+            parent.classList.remove('border-meraki-border', 'bg-white');
+            
+            const activeRadio = parent.querySelector('.formula-radio');
+            const activeDot = parent.querySelector('.formula-dot');
+            if (activeRadio) {
+                activeRadio.classList.add('bg-meraki-red', 'border-meraki-red');
+                activeRadio.classList.remove('border-meraki-border', 'bg-transparent');
+            }
+            if (activeDot) {
+                activeDot.classList.add('bg-white');
+                activeDot.classList.remove('bg-transparent');
+            }
+        }
+
+        function copyAccountToClipboard() {
+            const rawAcc = document.getElementById('acc-number').innerText.replace(/-/g, '');
+            const temp = document.createElement('input');
+            temp.value = rawAcc;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast("คัดลอกเลขบัญชี 123-2-98765-4 เรียบร้อยแล้วค่ะ");
+        }
+
+        function handleSlipFile(evt) {
+            const file = evt.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    slipDataUrl = e.target.result;
+                    document.getElementById('slip-preview').src = slipDataUrl;
+                    document.getElementById('slip-empty-view').classList.add('hidden');
+                    document.getElementById('slip-loaded-view').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('cust_name').value.trim();
+            const phone = document.getElementById('cust_phone').value.trim();
+            const addr = document.getElementById('cust_addr').value.trim();
+
+            if (!slipDataUrl) {
+                showToast("กรุณาแนบภาพสลิปการโอนเงินก่อนยืนยันค่ะ");
+                return;
+            }
+
+            const orderId = '#MRK-' + Math.floor(1000 + Math.random() * 9000);
+
+            document.getElementById('receipt-id').innerText = orderId;
+            document.getElementById('receipt-item').innerText = currentPackageTitle;
+            document.getElementById('receipt-formula').innerText = currentFormulaTitle;
+            document.getElementById('receipt-amount').innerText = `฿${currentPackagePrice.toLocaleString()} (ส่งฟรี)`;
+            document.getElementById('receipt-name').innerText = name;
+            document.getElementById('receipt-phone').innerText = phone;
+            document.getElementById('receipt-addr').innerText = addr;
+
+            const lineText = encodeURIComponent(
+                `สวัสดีค่ะ แจ้งยืนยันคำสั่งซื้อ ${orderId}\n` +
+                `แพ็กเกจ: ${currentPackageTitle}\n` +
+                `สูตร: ${currentFormulaTitle}\n` +
+                `ยอดชำระ: ฿${currentPackagePrice.toLocaleString()}\n` +
+                `ผู้รับ: ${name} (${phone})\n` +
+                `ที่อยู่: ${addr}\n` +
+                `(แนบสลิปชำระเงินเรียบร้อยแล้วในระบบค่ะ)`
+            );
+            document.getElementById('line-direct-btn').href = `${LINE_OA_URL}?text=${lineText}`;
+            document.getElementById('order-modal').classList.remove('hidden');
+        }
+
+        function closeOrderReceipt() {
+            document.getElementById('order-modal').classList.add('hidden');
+            document.getElementById('order-form').reset();
+            slipDataUrl = null;
+            document.getElementById('slip-empty-view').classList.remove('hidden');
+            document.getElementById('slip-loaded-view').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openConsumptionGuide() {
+            const guideModal = document.getElementById('guide-modal');
+            const guideTag = document.getElementById('guide-formula-tag');
+            const contentBox = document.getElementById('guide-dynamic-content');
+
+            guideTag.innerText = currentFormulaTitle;
+
+            if (currentFormulaId === 'formula1') {
+                contentBox.innerHTML = `
+                    <div class="p-3 bg-meraki-cream rounded-xl border border-meraki-border space-y-1">
+                        <strong class="text-meraki-cacao block font-black">🌱 Phase 1 (วันที่ 1–14 ของรอบเดือน):</strong>
+                        <p class="text-meraki-warmgrey text-xs leading-relaxed">
+                            เริ่มวันแรกที่ประจำเดือนมา ตักทานวันละ 1 ช้อนโต๊ะ ผสมโยเกิร์ต สมูทตี้ นม หรือสลัด เพื่อเติม Zinc, Magnesium และ Lignans
+                        </p>
+                    </div>
+
+                    <div class="p-3 bg-meraki-cream rounded-xl border border-meraki-border space-y-1">
+                        <strong class="text-meraki-red block font-black">🌻 Phase 2 (วันที่ 15 ถึงรอบถัดไป):</strong>
+                        <p class="text-meraki-warmgrey text-xs leading-relaxed">
+                            สลับมาทานถุง Phase 2 วันละ 1 ช้อนโต๊ะ เพื่อเติม Vitamin E, Selenium และ B6 สำหรับช่วงครึ่งหลังของรอบเดือน
+                        </p>
+                    </div>
+
+                    <div class="p-2.5 bg-white rounded-lg border border-meraki-border text-[11px] text-meraki-warmgrey space-y-0.5">
+                        <span class="font-bold text-meraki-cacao block">💡 สำหรับประจำเดือนมาไม่สม่ำเสมอ:</span>
+                        <p>เริ่มทาน Phase 1 ในคืนเดือนมืด (New Moon) 14 วัน และสลับไป Phase 2 ในคืนวันเพ็ญ (Full Moon) อีก 14 วันค่ะ</p>
+                    </div>
+                `;
+            } else {
+                contentBox.innerHTML = `
+                    <div class="p-3 bg-meraki-cream rounded-xl border border-meraki-border space-y-1">
+                        <strong class="text-meraki-red block font-black">🩸 สูตร Endo / ประจำเดือนขาด:</strong>
+                        <p class="text-meraki-warmgrey text-xs leading-relaxed">
+                            เน้นลดการอักเสบในอุ้งเชิงกรานและช่วยฟื้นฟูเยื่อบุมดลูกอย่างอ่อนโยน
+                        </p>
+                    </div>
+
+                    <div class="p-3 bg-white rounded-xl border border-meraki-border space-y-1">
+                        <strong class="text-meraki-cacao block font-black">🥄 ขนาดและเวลาทาน:</strong>
+                        <p class="text-meraki-warmgrey text-xs leading-relaxed">
+                            ตักทานวันละ 1 ช้อนโต๊ะ พร้อมมื้ออาหารเช้าสม่ำเสมอทุกวัน และดื่มน้ำให้เพียงพอในแต่ละวันค่ะ
+                        </p>
+                    </div>
+                `;
+            }
+
+            guideModal.classList.remove('hidden');
+        }
+
+        function closeConsumptionGuide() {
+            document.getElementById('guide-modal').classList.add('hidden');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notify');
+            document.getElementById('toast-text').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderQRCode(currentPackagePrice);
+
+            const heroVideo = document.getElementById('hero-vertical-video');
+            if (heroVideo) {
+                heroVideo.addEventListener('pause', () => {
+                    const icon = document.getElementById('hero-play-icon');
+                    if (icon) {
+                        icon.classList.remove('fa-pause');
+                        icon.classList.add('fa-play', 'ml-1');
+                    }
+                });
+                heroVideo.addEventListener('play', () => {
+                    const icon = document.getElementById('hero-play-icon');
+                    if (icon) {
+                        icon.classList.remove('fa-play', 'ml-1');
+                        icon.classList.add('fa-pause');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
