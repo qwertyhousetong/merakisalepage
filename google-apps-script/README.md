@@ -1,56 +1,45 @@
-# Order logging setup (Google Sheet + LINE group)
+# Order logging setup (Google Sheet + Telegram bot)
 
-This connects your checkout form to a Google Sheet and posts a notification into a LINE group whenever someone places an order.
+This connects your checkout form to a Google Sheet and sends a Telegram message — with the payment slip photo attached — to your team chat whenever someone places an order.
 
-Note: LINE Notify (the old, simple way to do this) was shut down by LINE in March 2025. The current replacement is the LINE **Messaging API**, which needs a few more one-time setup steps below — but once it's done, it keeps working the same way.
+Your bot is already created: **@merakisales_bot** (token already filled in for you below).
 
 ## 1. Create the Google Sheet + Apps Script
 
 1. Create a new Google Sheet (or open the one you want orders logged into).
 2. In the Sheet, go to **Extensions → Apps Script**.
 3. Delete the placeholder code and paste in the contents of `Code.gs` from this folder.
-4. Leave the CONFIG values at the top blank for now — you'll fill them in below.
+4. `TELEGRAM_BOT_TOKEN` is already filled in. Leave `TELEGRAM_CHAT_ID` blank for now — see step 2.
 
-## 2. Set up the LINE Messaging API
+## 2. Get your Telegram chat id
 
-1. Go to the [LINE Official Account Manager](https://manager.line.biz/) and open your `@meraki` account (or create one if you don't have a proper Official Account yet — the free plan is fine).
-2. Go to **Settings → Messaging API** and enable it. This links your OA to a channel in the LINE Developers Console.
-3. Under the same settings, turn ON **"Allow bot to join group chats"**.
-4. Go to the [LINE Developers Console](https://developers.line.biz/console/), open that channel, click the **Messaging API** tab, and issue a **Channel access token (long-lived)**. Copy it.
-5. In `Code.gs`, paste that token into `LINE_CHANNEL_ACCESS_TOKEN`.
+1. Add **@merakisales_bot** to the Telegram group where you want order notifications (or message it directly for a 1-on-1 chat instead of a group).
+2. Send any message in that chat (e.g. "hi").
+3. Tell me once you've done this — I can fetch the chat id directly using the bot token and drop it straight into the script for you, no extra steps needed on your end.
 
-## 3. Find your LINE group's ID
+(If you'd rather do it yourself: visit `https://api.telegram.org/bot<TOKEN>/getUpdates` in a browser after sending that message, and look for `"chat":{"id":...}` in the response.)
 
-LINE doesn't show group IDs anywhere in the app, so you have to capture one:
+## 3. (Optional) Save payment slip photos to Drive too
 
-1. Invite your `@meraki` bot into the LINE group you want order notifications sent to (add it like you'd add any contact to the group).
-2. In `Code.gs`, temporarily rename the function `doPost` to `doPost_orders`, and rename `logWebhookForGroupId` to `doPost`.
-3. **Deploy → Manage deployments → Edit (pencil icon) → New version → Deploy.**
-4. In the LINE Developers Console (Messaging API tab), set the **Webhook URL** to your Apps Script web app URL, and turn "Use webhook" ON.
-5. Send any message in the LINE group (with the bot in it).
-6. Back in Apps Script, go to **Executions** (left sidebar) and open the latest run. In the logged data, find `"source":{"type":"group","groupId":"C xxxxxxxx..."}` — copy that `groupId` value.
-7. Paste it into `LINE_GROUP_ID` in `Code.gs`.
-8. Undo step 2 (rename the functions back: `doPost` → `logWebhookForGroupId`, `doPost_orders` → `doPost`), and turn the webhook back off in the Developers Console (Messaging API tab → Use webhook → OFF), since you don't need LINE to call your script anymore.
-
-## 4. (Optional) Save payment slip photos to Drive
+The slip photo already gets sent directly into your Telegram chat with every order. If you *also* want a permanent copy saved in Google Drive (linked in the Sheet):
 
 1. Create a Google Drive folder for slip photos, and share it so anyone with the link can view.
 2. Copy the folder ID from its URL (`drive.google.com/drive/folders/`**`THIS_PART`**).
 3. Paste it into `SLIP_DRIVE_FOLDER_ID` in `Code.gs`.
 
-If you skip this, orders still get logged to the Sheet and the LINE group — just without a slip link.
+If you skip this, orders are still logged to the Sheet and sent to Telegram — the Sheet's "ลิงก์สลิป" column just stays blank.
 
-## 5. Deploy the web app
+## 4. Deploy the web app
 
 1. **Deploy → New deployment.**
 2. Type: **Web app**.
 3. Execute as: **Me**.
 4. Who has access: **Anyone**.
-5. Click **Deploy**, and authorize the permissions it asks for (this is your own script acting on your own Sheet/Drive/LINE account).
+5. Click **Deploy**, and authorize the permissions it asks for (this is your own script acting on your own Sheet/Drive/Telegram bot).
 6. Copy the **Web app URL** it gives you (ends in `/exec`).
 
-## 6. Send me the URL
+## 5. Send me the URL
 
-Paste that Web app URL back to me and I'll drop it into `ORDER_LOG_URL` in `index.html` and redeploy the site. From then on, every completed checkout will log a row to your Sheet and post a message in your LINE group automatically.
+Paste that Web app URL back to me and I'll drop it into `ORDER_LOG_URL` in `index.html` and redeploy the site. From then on, every completed checkout will log a row to your Sheet and post a message (with the slip photo) into your Telegram chat automatically.
 
-If you ever need to change the token, group ID, or Drive folder later, just edit `Code.gs` in the Apps Script editor and click **Deploy → Manage deployments → Edit → New version → Deploy** again — the web app URL stays the same, so nothing on the site needs to change.
+If you ever need to change the chat id or Drive folder later, just edit `Code.gs` in the Apps Script editor and click **Deploy → Manage deployments → Edit → New version → Deploy** again — the web app URL stays the same, so nothing on the site needs to change.

@@ -2,17 +2,17 @@
  * Meraki order logger.
  * Receives an order from the sales page and:
  *   1. Appends a row to a sheet in this spreadsheet
- *   2. Optionally saves the payment slip photo to Google Drive
- *   3. Pushes a notification to a LINE group via the Messaging API
+ *   2. Saves the payment slip photo to Google Drive (optional but recommended)
+ *   3. Sends a notification — with the slip photo attached — to a Telegram chat/group
  *
  * SETUP: see README.md in this folder for the full step-by-step guide.
  */
 
 // ====== CONFIG — fill these in, then redeploy ======
 const SHEET_NAME = 'Orders';
-const LINE_CHANNEL_ACCESS_TOKEN = ''; // long-lived channel access token from LINE Developers Console
-const LINE_GROUP_ID = '';             // the target LINE group's id (see README for how to find it)
-const SLIP_DRIVE_FOLDER_ID = '';      // optional: Drive folder id to save slip photos into
+const TELEGRAM_BOT_TOKEN = '8849917262:AAGR8swyjJVTWZjjzGGm4nBDBwSrO69smOk'; // @merakisales_bot
+const TELEGRAM_CHAT_ID = '';   // the group/chat id the bot should post orders into (see README)
+const SLIP_DRIVE_FOLDER_ID = ''; // optional: Drive folder id to save slip photos into
 
 function doPost(e) {
   try {
@@ -36,7 +36,7 @@ function doPost(e) {
       slipUrl
     ]);
 
-    notifyLineGroup_(data, slipUrl);
+    notifyTelegram_(data, slipUrl);
 
     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -77,37 +77,46 @@ function saveSlipToDrive_(base64Data, orderId) {
   }
 }
 
-function notifyLineGroup_(data, slipUrl) {
-  if (!LINE_CHANNEL_ACCESS_TOKEN || !LINE_GROUP_ID) return;
+function notifyTelegram_(data, slipUrl) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
 
-  const lines = [
+  const caption = [
     '🛒 ออเดอร์ใหม่ ' + (data.orderId || ''),
     'แพ็กเกจ: ' + (data.packageTitle || ''),
     'สูตร: ' + (data.formulaTitle || ''),
     'ยอดชำระ: ฿' + (data.amount || ''),
     'ผู้รับ: ' + (data.customerName || '') + ' (' + (data.customerPhone || '') + ')',
     'ที่อยู่: ' + (data.customerAddress || '')
-  ];
-  if (slipUrl) lines.push('สลิป: ' + slipUrl);
+  ].join('\n');
 
-  UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
+  const apiBase = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN;
+
+  // Send the slip photo itself (not just a link) when we have one, with the
+  // order details as the caption underneath it.
+  if (data.slipImageBase64) {
+    const matches = data.slipImageBase64.match(/^data:(image\/\w+);base64,(.*)$/);
+    if (matches) {
+      const bytes = Utilities.base64Decode(matches[2]);
+      const blob = Utilities.newBlob(bytes, matches[1], 'slip-' + (data.orderId || 'order') + '.jpg');
+      const resp = UrlFetchApp.fetch(apiBase + '/sendPhoto', {
+        method: 'post',
+        payload: {
+          chat_id: TELEGRAM_CHAT_ID,
+          caption: caption,
+          photo: blob
+        },
+        muteHttpExceptions: true
+      });
+      // If sendPhoto succeeded we're done; otherwise fall through to a text message
+      // so an order is never silently lost just because the photo failed to send.
+      const ok = JSON.parse(resp.getContentText()).ok;
+      if (ok) return;
+    }
+  }
+
+  UrlFetchApp.fetch(apiBase + '/sendMessage', {
     method: 'post',
-    contentType: 'application/json',
-    headers: { Authorization: 'Bearer ' + LINE_CHANNEL_ACCESS_TOKEN },
-    payload: JSON.stringify({
-      to: LINE_GROUP_ID,
-      messages: [{ type: 'text', text: lines.join('\n') }]
-    }),
+    payload: { chat_id: TELEGRAM_CHAT_ID, text: caption },
     muteHttpExceptions: true
   });
-}
-
-/**
- * ONE-TIME HELPER — run this by setting it as your Messaging API webhook
- * temporarily to discover your LINE group's id. See README step 3.
- * It just logs whatever LINE sends so you can read the groupId out of it.
- */
-function logWebhookForGroupId(e) {
-  Logger.log(e.postData.contents);
-  return ContentService.createTextOutput('OK');
 }
