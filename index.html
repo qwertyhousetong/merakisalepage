@@ -475,77 +475,77 @@
                 <div id="video-reviews-slider" class="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 px-4 sm:px-0">
                     
                     <!-- Video 1 -->
-                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
+                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border cursor-pointer" onclick="openMediaViewer(videoReviewsGallery, 0)">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
                             <source src="assets/videos/review-video-1.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
-                            <span class="bg-emerald-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ลดสิวฮอร์โมน</span>
-                            <p class="text-xs font-bold leading-snug">"สิวคางหายเกลี้ยงเลยค่ะ"</p>
+                            <span class="bg-emerald-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ประสบการณ์จริง</span>
+                            <p class="text-xs font-bold leading-snug">"เป็นเยื่อบุโพรงมดลูกฯ ปรับวิธีนี้แล้วชีวิตเปลี่ยน!"</p>
                         </div>
                         <!-- Fullscreen Btn -->
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="event.stopPropagation(); openMediaViewer(videoReviewsGallery, 0)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 2 -->
-                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
+                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border cursor-pointer" onclick="openMediaViewer(videoReviewsGallery, 1)">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
                             <source src="assets/videos/review-video-2.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
-                            <span class="bg-rose-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">หายปวดเมนส์</span>
-                            <p class="text-xs font-bold leading-snug">"ไม่ต้องกินยาแก้ปวดแล้ว"</p>
+                            <span class="bg-rose-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">หยุดปวดเมนส์</span>
+                            <p class="text-xs font-bold leading-snug">"ประจำเดือนมาตรง ไม่ปวดท้องทรมานอีกแล้ว!"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="event.stopPropagation(); openMediaViewer(videoReviewsGallery, 1)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 3 -->
-                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
+                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border cursor-pointer" onclick="openMediaViewer(videoReviewsGallery, 2)">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
                             <source src="assets/videos/review-video-3.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
-                            <span class="bg-purple-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ประจำเดือนมาปกติ</span>
-                            <p class="text-xs font-bold leading-snug">"เมนส์กลับมาแล้ว ดีใจมาก"</p>
+                            <span class="bg-purple-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">สูตรคุณซินดี้</span>
+                            <p class="text-xs font-bold leading-snug">"เคล็ดลับล็อกอายุ คุมฮอร์โมนให้เป๊ะ"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="event.stopPropagation(); openMediaViewer(videoReviewsGallery, 2)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 4 -->
-                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
+                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border cursor-pointer" onclick="openMediaViewer(videoReviewsGallery, 3)">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
                             <source src="assets/videos/review-video-4.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
-                            <span class="bg-blue-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ลดอาการบวม</span>
-                            <p class="text-xs font-bold leading-snug">"ตัวเบาขึ้น ไม่อึดอัด"</p>
+                            <span class="bg-blue-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ทริคมื้อเช้า</span>
+                            <p class="text-xs font-bold leading-snug">"แค่โรย 1 ช้อนมื้อเช้า อร่อย ทานง่าย ได้ฮอร์โมนดี!"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="event.stopPropagation(); openMediaViewer(videoReviewsGallery, 3)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 5 -->
-                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
+                    <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border cursor-pointer" onclick="openMediaViewer(videoReviewsGallery, 4)">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
                             <source src="assets/videos/review-video-5.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
-                            <span class="bg-amber-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">อารมณ์เสถียร</span>
-                            <p class="text-xs font-bold leading-snug">"ไม่เหวี่ยงใส่แฟนแล้วค่ะ 55"</p>
+                            <span class="bg-amber-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ผลลัพธ์ 6 เดือน</span>
+                            <p class="text-xs font-bold leading-snug">"เห็นผลชัดจนแฟนทัก! ดีจนต้องซื้อให้แฟนกินด้วย"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="event.stopPropagation(); openMediaViewer(videoReviewsGallery, 4)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
@@ -565,61 +565,61 @@
                 </div>
 
                 <div id="chat-images-slider" class="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar py-2 px-1">
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 0)">
                         <img src="assets/reviews/review-1.jpg" alt="Chat Review 1" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 1)">
                         <img src="assets/reviews/review-2.jpg" alt="Chat Review 2" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 2)">
                         <img src="assets/reviews/review-3.jpg" alt="Chat Review 3" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 3)">
                         <img src="assets/reviews/review-4.jpg" alt="Chat Review 4" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 4)">
                         <img src="assets/reviews/review-5.jpg" alt="Chat Review 5" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 5)">
                         <img src="assets/reviews/review-6.jpg" alt="Chat Review 6" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 6)">
                         <img src="assets/reviews/review-7.jpg" alt="Chat Review 7" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 7)">
                         <img src="assets/reviews/review-8.jpg" alt="Chat Review 8" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 8)">
                         <img src="assets/reviews/review-9.jpg" alt="Chat Review 9" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 9)">
                         <img src="assets/reviews/review-10.jpg" alt="Chat Review 10" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 10)">
                         <img src="assets/reviews/review-11.jpg" alt="Chat Review 11" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 11)">
                         <img src="assets/reviews/review-12.jpg" alt="Chat Review 12" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 12)">
                         <img src="assets/reviews/review-13.jpg" alt="Chat Review 13" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 13)">
                         <img src="assets/reviews/review-14.jpg" alt="Chat Review 14" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 14)">
                         <img src="assets/reviews/review-15.jpg" alt="Chat Review 15" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 15)">
                         <img src="assets/reviews/review-16.jpg" alt="Chat Review 16" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 16)">
                         <img src="assets/reviews/review-17.jpg" alt="Chat Review 17" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 17)">
                         <img src="assets/reviews/review-18.jpg" alt="Chat Review 18" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openMediaViewer(chatReviewsGallery, 18)">
                         <img src="assets/reviews/review-19.jpg" alt="Chat Review 19" class="w-full h-full object-cover" loading="lazy">
                     </div>
                 </div>
@@ -1148,12 +1148,34 @@
         </div>
     </div>
 
-    <!-- Image Viewer Modal (For Chat Reviews) -->
-    <div id="image-viewer-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm hidden" onclick="closeImageModal()">
-        <button type="button" class="absolute top-6 right-6 text-white text-3xl hover:text-meraki-pink-soft transition">
+    <!-- Unified Fullscreen Media Viewer (Videos + Images, swipeable) -->
+    <div id="media-viewer-modal" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/95 hidden" onclick="closeMediaViewer()">
+        <button type="button" class="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white text-2xl flex items-center justify-center backdrop-blur transition" onclick="event.stopPropagation(); closeMediaViewer()">
             &times;
         </button>
-        <img id="image-viewer-content" src="" alt="Chat Fullscreen" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" onclick="event.stopPropagation()">
+
+        <!-- Prev/Next Arrows (pointer devices) -->
+        <button type="button" id="media-viewer-prev" class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white items-center justify-center backdrop-blur transition" onclick="event.stopPropagation(); mediaViewerNav(-1)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" id="media-viewer-next" class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white items-center justify-center backdrop-blur transition" onclick="event.stopPropagation(); mediaViewerNav(1)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <!-- Swipeable Stage -->
+        <div id="media-viewer-stage" class="relative w-full h-full flex items-center justify-center px-3 sm:px-16">
+            <img id="media-viewer-img" src="" alt="Fullscreen preview" class="hidden max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl" onclick="event.stopPropagation()">
+            <video id="media-viewer-video" class="hidden max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl" playsinline controls loop onclick="event.stopPropagation()"></video>
+
+            <!-- Caption for video reviews -->
+            <div id="media-viewer-caption" class="hidden absolute bottom-8 left-1/2 -translate-x-1/2 text-center px-4 pointer-events-none">
+                <span id="media-viewer-badge" class="inline-block bg-meraki-red/90 text-white text-[11px] px-2.5 py-1 rounded-full font-bold mb-1.5"></span>
+                <p id="media-viewer-quote" class="text-white text-sm font-bold"></p>
+            </div>
+        </div>
+
+        <!-- Position counter -->
+        <div id="media-viewer-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-xs font-bold"></div>
     </div>
 
     <!-- Floating Verified Customer Result Toast (COMPACT) -->
@@ -1345,36 +1367,118 @@
             if (address) document.getElementById('cust_addr').value = address;
         }
 
-        // Video review cards: tap to unmute, expand button for real fullscreen with sound
-        function toggleVideoSound(video) {
-            video.muted = !video.muted;
-            if (video.paused) video.play();
+        // ---- Unified Fullscreen Media Viewer (videos + images, swipeable) ----
+        const videoReviewsGallery = [
+            { type: 'video', src: 'assets/videos/review-video-1.mp4', badge: 'ประสบการณ์จริง', quote: 'เป็นเยื่อบุโพรงมดลูกฯ ปรับวิธีนี้แล้วชีวิตเปลี่ยน!' },
+            { type: 'video', src: 'assets/videos/review-video-2.mp4', badge: 'หยุดปวดเมนส์', quote: 'ประจำเดือนมาตรง ไม่ปวดท้องทรมานอีกแล้ว!' },
+            { type: 'video', src: 'assets/videos/review-video-3.mp4', badge: 'สูตรคุณซินดี้', quote: 'เคล็ดลับล็อกอายุ คุมฮอร์โมนให้เป๊ะ' },
+            { type: 'video', src: 'assets/videos/review-video-4.mp4', badge: 'ทริคมื้อเช้า', quote: 'แค่โรย 1 ช้อนมื้อเช้า อร่อย ทานง่าย ได้ฮอร์โมนดี!' },
+            { type: 'video', src: 'assets/videos/review-video-5.mp4', badge: 'ผลลัพธ์ 6 เดือน', quote: 'เห็นผลชัดจนแฟนทัก! ดีจนต้องซื้อให้แฟนกินด้วย' }
+        ];
+
+        const chatReviewsGallery = Array.from({ length: 19 }, (_, i) => ({
+            type: 'image',
+            src: `assets/reviews/review-${i + 1}.jpg`
+        }));
+
+        let mediaViewerGallery = [];
+        let mediaViewerIndex = 0;
+
+        function openMediaViewer(gallery, index) {
+            mediaViewerGallery = gallery;
+            mediaViewerIndex = index;
+            renderMediaViewer();
+            document.getElementById('media-viewer-modal').classList.remove('hidden');
         }
 
-        function expandVideo(btn) {
-            const card = btn.closest('.snap-center');
-            const video = card ? card.querySelector('video') : null;
-            if (!video) return;
-            video.muted = false;
-            video.controls = true;
-            if (video.paused) video.play();
-            if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.webkitEnterFullscreen) {
-                // iOS Safari native fullscreen
-                video.webkitEnterFullscreen();
-            } else if (video.webkitRequestFullscreen) {
-                video.webkitRequestFullscreen();
-            }
+        function closeMediaViewer() {
+            document.getElementById('media-viewer-modal').classList.add('hidden');
+            const video = document.getElementById('media-viewer-video');
+            video.pause();
+            video.removeAttribute('src');
+            video.load();
         }
 
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                document.querySelectorAll('#video-reviews-slider video').forEach(v => {
-                    v.muted = true;
-                    v.controls = false;
-                });
+        function renderMediaViewer() {
+            const item = mediaViewerGallery[mediaViewerIndex];
+            if (!item) return;
+
+            const img = document.getElementById('media-viewer-img');
+            const video = document.getElementById('media-viewer-video');
+            const caption = document.getElementById('media-viewer-caption');
+            const badge = document.getElementById('media-viewer-badge');
+            const quote = document.getElementById('media-viewer-quote');
+            const counter = document.getElementById('media-viewer-counter');
+            const prevBtn = document.getElementById('media-viewer-prev');
+            const nextBtn = document.getElementById('media-viewer-next');
+
+            video.pause();
+
+            if (item.type === 'video') {
+                img.classList.add('hidden');
+                video.classList.remove('hidden');
+                if (video.getAttribute('src') !== item.src) {
+                    video.src = item.src;
+                }
+                video.muted = false;
+                video.play().catch(() => {});
+
+                if (item.badge) {
+                    caption.classList.remove('hidden');
+                    badge.innerText = item.badge;
+                    quote.innerText = `"${item.quote}"`;
+                } else {
+                    caption.classList.add('hidden');
+                }
+            } else {
+                video.classList.add('hidden');
+                img.classList.remove('hidden');
+                img.src = item.src;
+                caption.classList.add('hidden');
             }
+
+            counter.innerText = `${mediaViewerIndex + 1} / ${mediaViewerGallery.length}`;
+            prevBtn.style.visibility = mediaViewerIndex === 0 ? 'hidden' : 'visible';
+            nextBtn.style.visibility = mediaViewerIndex === mediaViewerGallery.length - 1 ? 'hidden' : 'visible';
+        }
+
+        function mediaViewerNav(delta) {
+            const newIndex = mediaViewerIndex + delta;
+            if (newIndex < 0 || newIndex >= mediaViewerGallery.length) return;
+            mediaViewerIndex = newIndex;
+            renderMediaViewer();
+        }
+
+        // Swipe left/right to move between slides while the viewer is open
+        (function setupMediaViewerSwipe() {
+            const stage = document.getElementById('media-viewer-stage');
+            if (!stage) return;
+            let startX = 0, startY = 0, tracking = false;
+
+            stage.addEventListener('touchstart', (e) => {
+                if (e.touches.length !== 1) return;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                tracking = true;
+            }, { passive: true });
+
+            stage.addEventListener('touchend', (e) => {
+                if (!tracking) return;
+                tracking = false;
+                const dx = e.changedTouches[0].clientX - startX;
+                const dy = e.changedTouches[0].clientY - startY;
+                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+                    mediaViewerNav(dx < 0 ? 1 : -1);
+                }
+            }, { passive: true });
+        })();
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('media-viewer-modal');
+            if (!modal || modal.classList.contains('hidden')) return;
+            if (e.key === 'ArrowLeft') mediaViewerNav(-1);
+            if (e.key === 'ArrowRight') mediaViewerNav(1);
+            if (e.key === 'Escape') closeMediaViewer();
         });
 
         // Toast Reviews Slider
@@ -1617,22 +1721,6 @@
             });
 
             sections.forEach(sec => observer.observe(sec));
-        }
-
-        function openImageModal(src) {
-            const modal = document.getElementById('image-viewer-modal');
-            const img = document.getElementById('image-viewer-content');
-            if (modal && img) {
-                img.src = src;
-                modal.classList.remove('hidden');
-            }
-        }
-
-        function closeImageModal() {
-            const modal = document.getElementById('image-viewer-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
