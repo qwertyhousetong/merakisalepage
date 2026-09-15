@@ -11,8 +11,8 @@
 // ====== CONFIG — fill these in, then redeploy ======
 const SHEET_NAME = 'Orders';
 const TELEGRAM_BOT_TOKEN = '8849917262:AAGR8swyjJVTWZjjzGGm4nBDBwSrO69smOk'; // @merakisales_bot
-const TELEGRAM_CHAT_ID = '';   // the group/chat id the bot should post orders into (see README)
-const SLIP_DRIVE_FOLDER_ID = ''; // optional: Drive folder id to save slip photos into
+const TELEGRAM_CHAT_ID = '-5369048494';   // "Meraki Sales Noti" group chat
+const SLIP_DRIVE_FOLDER_ID = '12-RglJbi7w4MOrpfyFk8LC5rl27bm-76'; // Drive folder id to save slip photos into
 
 function doPost(e) {
   try {
