@@ -1181,7 +1181,7 @@
         // Backend order logging (Google Sheet + Telegram bot notification).
         // Set this to your deployed Google Apps Script Web App URL to activate.
         // See google-apps-script/README.md in the project for full setup steps.
-        const ORDER_LOG_URL = ""; // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
+        const ORDER_LOG_URL = "https://script.google.com/macros/s/AKfycbwedxcTyipOggqk3JlmzjKD1j8x6GJ6AblCkylOg_1msyVVUg6NLX0IpsQRQtI1ebAbTg/exec";
 
         function logOrderToBackend(payload) {
             if (!ORDER_LOG_URL) return; // not configured yet — safe no-op
