@@ -692,13 +692,13 @@
                     <!-- Packages Radio Select Cards (3 stacked rows) -->
                     <div class="space-y-3">
 
-                        <!-- Package 1: 1 Month (DEFAULT SELECTED) -->
-                        <label class="package-item active relative bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-red rounded-2xl p-4 sm:p-5 cursor-pointer transition shadow-float ring-4 ring-meraki-red/20 flex flex-col gap-2">
-                            <input type="radio" name="pack_select" value="set1" data-title="เซ็ตทดลอง (2 ถุง สำหรับ 1 เดือน)" data-price="1790" checked onchange="onPackageSelect(this)" class="sr-only">
+                        <!-- Package 1: 1 Month -->
+                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl p-4 sm:p-5 cursor-pointer transition shadow-card-lift flex flex-col gap-2">
+                            <input type="radio" name="pack_select" value="set1" data-title="เซ็ตทดลอง (2 ถุง สำหรับ 1 เดือน)" data-price="1790" onchange="onPackageSelect(this)" class="sr-only">
                             <div class="flex items-center justify-between gap-3">
                                 <div class="flex items-center gap-2.5 min-w-0">
-                                    <span class="custom-radio w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 transition-colors shadow-sm">
-                                        <span class="dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white"></span>
+                                    <span class="custom-radio w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-meraki-border bg-transparent flex items-center justify-center shrink-0 transition-colors shadow-sm">
+                                        <span class="dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-transparent"></span>
                                     </span>
                                     <span class="font-extrabold text-sm sm:text-base text-meraki-cacao whitespace-nowrap">1 เดือน</span>
                                     <span class="text-[9px] sm:text-[10px] font-bold text-emerald-800 bg-emerald-100 px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap">ส่งฟรี</span>
@@ -713,13 +713,13 @@
                             </div>
                         </label>
 
-                        <!-- Package 2: 3 Months -->
-                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl p-4 sm:p-5 cursor-pointer transition shadow-card-lift flex flex-col gap-2">
-                            <input type="radio" name="pack_select" value="set3" data-title="เซ็ต 3 เดือน (6 ถุง สำหรับ 3 เดือน)" data-price="4680" onchange="onPackageSelect(this)" class="sr-only">
+                        <!-- Package 2: 3 Months (DEFAULT SELECTED — recommended duration) -->
+                        <label class="package-item active relative bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-red rounded-2xl p-4 sm:p-5 cursor-pointer transition shadow-float ring-4 ring-meraki-red/20 flex flex-col gap-2">
+                            <input type="radio" name="pack_select" value="set3" data-title="เซ็ต 3 เดือน (6 ถุง สำหรับ 3 เดือน)" data-price="4680" checked onchange="onPackageSelect(this)" class="sr-only">
                             <div class="flex items-center justify-between gap-3">
                                 <div class="flex items-center gap-2.5 min-w-0">
-                                    <span class="custom-radio w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-meraki-border bg-transparent flex items-center justify-center shrink-0 shadow-sm">
-                                        <span class="dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-transparent"></span>
+                                    <span class="custom-radio w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 transition-colors shadow-sm">
+                                        <span class="dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white"></span>
                                     </span>
                                     <span class="font-extrabold text-sm sm:text-base text-meraki-cacao whitespace-nowrap">3 เดือน</span>
                                     <span class="text-[9px] sm:text-[10px] font-bold text-meraki-red bg-meraki-red-light px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap">ยอดนิยม</span>
@@ -873,7 +873,7 @@
                     <div class="p-5 rounded-3xl bg-meraki-cream border border-meraki-border space-y-6">
                         <div class="text-center space-y-1">
                             <span class="text-sm text-meraki-warmgrey font-medium">ยอดชำระสุทธิ:</span>
-                            <div id="checkout-amount-display" class="text-4xl font-helvetica font-extrabold text-meraki-red tracking-tight">฿1,790</div>
+                            <div id="checkout-amount-display" class="text-4xl font-helvetica font-extrabold text-meraki-red tracking-tight">฿4,680</div>
                         </div>
 
                         <!-- Payment Details Display -->
@@ -1185,7 +1185,7 @@
             <div>
                 <span class="text-[10px] text-meraki-warmgrey block font-bold">ยอดชำระสุทธิ:</span>
                 <div id="sticky-price-text" class="text-lg font-helvetica font-extrabold text-meraki-red leading-tight">
-                    ฿1,790 <span class="text-[9px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 align-middle">ส่งฟรี</span>
+                    ฿4,680 <span class="text-[9px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 align-middle">ส่งฟรี</span>
                 </div>
             </div>
             <a href="#checkout" class="px-5 py-2.5 rounded-full bg-meraki-red text-white text-sm font-bold hover:bg-meraki-red-dark transition shadow-apple-glow flex items-center gap-2 active:scale-95">
@@ -1222,8 +1222,8 @@
             } catch (err) { /* ignore */ }
         }
 
-        let currentPackageTitle = "เซ็ตทดลอง (2 ถุง สำหรับ 1 เดือน)";
-        let currentPackagePrice = 1790;
+        let currentPackageTitle = "เซ็ต 3 เดือน (6 ถุง สำหรับ 3 เดือน)";
+        let currentPackagePrice = 4680;
         let currentFormulaId = "formula1";
         let currentFormulaTitle = "1. สูตรมาตรฐาน 1+2";
         let slipDataUrl = null;
