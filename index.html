@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meraki — Seed Cycling ปรับสมดุลฮอร์โมนตามธรรมชาติ</title>
 
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+
     <!-- Tailwind CSS Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -60,6 +67,22 @@
     <style>
         :root {
             color-scheme: light;
+        }
+        /* Content-protection deterrent: block casual text selection/copy.
+           Not a real security measure — page source is always viewable
+           via devtools/view-source — this only discourages casual copying. */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+        input, textarea, [contenteditable="true"] {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            user-select: text;
+        }
+        img {
+            -webkit-user-drag: none;
         }
         body {
             background-color: #F7F3EE;
@@ -148,14 +171,8 @@
     <!-- Main Navigation Header -->
     <header class="sticky top-0 z-40 glass-panel border-b border-meraki-border px-4 sm:px-6 py-3 transition-all shadow-xs">
         <div class="max-w-4xl mx-auto flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2.5 group">
-                <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-meraki-red to-meraki-red-vibrant flex items-center justify-center text-white text-sm shadow-apple-glow">
-                    <i class="fa-solid fa-seedling"></i>
-                </div>
-                <div class="leading-none">
-                    <span class="text-xl font-black font-helvetica tracking-wider text-meraki-cacao block">MERAKI</span>
-                    <span class="text-[9px] uppercase font-helvetica tracking-widest text-meraki-muted font-bold block mt-0.5">HORMONAL NUTRITION</span>
-                </div>
+            <a href="#" class="flex items-center gap-2.5 group" oncontextmenu="return false;">
+                <img src="assets/logo.png" alt="Meraki" class="h-9 w-auto select-none pointer-events-none" draggable="false">
             </a>
             
             <div class="flex items-center gap-2.5">
@@ -329,7 +346,7 @@
 
                     <!-- Full Mockup Image for Phase 1 -->
                     <div class="w-full aspect-square relative rounded-2xl overflow-hidden group-hover:scale-105 transition duration-500 bg-white">
-                        <img src="meraki phase 1.jpg" alt="ซองสีชมพู Phase 1" class="w-full h-full object-cover">
+                        <img src="assets/phase-1.jpg" alt="ซองสีชมพู Phase 1" class="w-full h-full object-cover">
                     </div>
 
                     <div class="relative z-10 text-center space-y-1 sm:space-y-2 pt-1 sm:pt-2 flex-grow">
@@ -358,7 +375,7 @@
 
                     <!-- Full Mockup Image for Phase 2 -->
                     <div class="w-full aspect-square relative rounded-2xl overflow-hidden group-hover:scale-105 transition duration-500 bg-white">
-                        <img src="meraki phase 2.jpg" alt="ซองสีแดง Phase 2" class="w-full h-full object-cover">
+                        <img src="assets/phase-2.jpg" alt="ซองสีแดง Phase 2" class="w-full h-full object-cover">
                     </div>
 
                     <div class="relative z-10 text-center space-y-1 sm:space-y-2 pt-1 sm:pt-2 flex-grow">
@@ -460,8 +477,7 @@
                     <!-- Video 1 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
                         <video playsinline autoplay loop muted class="w-full h-full object-cover">
-                            <!-- Placeholder Video -->
-                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                            <source src="assets/videos/review-video-1.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
@@ -477,7 +493,7 @@
                     <!-- Video 2 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
                         <video playsinline autoplay loop muted class="w-full h-full object-cover">
-                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4">
+                            <source src="assets/videos/review-video-2.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
@@ -492,7 +508,7 @@
                     <!-- Video 3 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
                         <video playsinline autoplay loop muted class="w-full h-full object-cover">
-                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                            <source src="assets/videos/review-video-3.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
@@ -507,7 +523,7 @@
                     <!-- Video 4 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
                         <video playsinline autoplay loop muted class="w-full h-full object-cover">
-                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" type="video/mp4">
+                            <source src="assets/videos/review-video-4.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
@@ -522,7 +538,7 @@
                     <!-- Video 5 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
                         <video playsinline autoplay loop muted class="w-full h-full object-cover">
-                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" type="video/mp4">
+                            <source src="assets/videos/review-video-5.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
                         <div class="absolute bottom-4 left-4 right-4 text-white">
@@ -549,21 +565,62 @@
                 </div>
 
                 <div id="chat-images-slider" class="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar py-2 px-1">
-                    <!-- Placeholder Chat Image 1 -->
                     <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
-                        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&auto=format&fit=crop&q=80" alt="Chat Review 1" class="w-full h-full object-cover">
+                        <img src="assets/reviews/review-1.jpg" alt="Chat Review 1" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <!-- Placeholder Chat Image 2 -->
                     <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
-                        <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=500&auto=format&fit=crop&q=80" alt="Chat Review 2" class="w-full h-full object-cover">
+                        <img src="assets/reviews/review-2.jpg" alt="Chat Review 2" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <!-- Placeholder Chat Image 3 -->
                     <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
-                        <img src="https://images.unsplash.com/photo-1611162618828-cb420edbf903?w=500&auto=format&fit=crop&q=80" alt="Chat Review 3" class="w-full h-full object-cover">
+                        <img src="assets/reviews/review-3.jpg" alt="Chat Review 3" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <!-- Placeholder Chat Image 4 -->
                     <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
-                        <img src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=500&auto=format&fit=crop&q=80" alt="Chat Review 4" class="w-full h-full object-cover">
+                        <img src="assets/reviews/review-4.jpg" alt="Chat Review 4" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-5.jpg" alt="Chat Review 5" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-6.jpg" alt="Chat Review 6" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-7.jpg" alt="Chat Review 7" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-8.jpg" alt="Chat Review 8" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-9.jpg" alt="Chat Review 9" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-10.jpg" alt="Chat Review 10" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-11.jpg" alt="Chat Review 11" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-12.jpg" alt="Chat Review 12" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-13.jpg" alt="Chat Review 13" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-14.jpg" alt="Chat Review 14" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-15.jpg" alt="Chat Review 15" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-16.jpg" alt="Chat Review 16" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-17.jpg" alt="Chat Review 17" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-18.jpg" alt="Chat Review 18" class="w-full h-full object-cover" loading="lazy">
+                    </div>
+                    <div class="snap-center shrink-0 w-56 aspect-[1/1.5] bg-meraki-cream rounded-2xl overflow-hidden shadow-apple-glass border border-meraki-border cursor-pointer hover:opacity-90 transition" onclick="openImageModal(this.querySelector('img').src)">
+                        <img src="assets/reviews/review-19.jpg" alt="Chat Review 19" class="w-full h-full object-cover" loading="lazy">
                     </div>
                 </div>
                 <div class="text-center text-[10px] text-meraki-muted font-bold">แตะที่รูปเพื่อดูภาพเต็ม</div>
@@ -745,8 +802,7 @@
 
                                 <!-- Mockup Image 1:1 -->
                                 <div class="w-full aspect-square rounded-2xl overflow-hidden bg-white border border-meraki-border shadow-sm mt-8 sm:mt-2 relative">
-                                    <img src="meraki phase 1.jpg" alt="สูตรมาตรฐาน 1" class="w-full h-full object-cover absolute top-0 left-0 hover:scale-105 transition duration-300" style="clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);">
-                                    <img src="meraki phase 2.jpg" alt="สูตรมาตรฐาน 2" class="w-full h-full object-cover absolute top-0 right-0 hover:scale-105 transition duration-300" style="clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);">
+                                    <img src="assets/formula-1-2.jpg" alt="สูตรมาตรฐาน 1+2" class="w-full h-full object-cover hover:scale-105 transition duration-300">
                                 </div>
 
                                 <div class="space-y-2 w-full pt-1">
@@ -770,7 +826,7 @@
 
                                 <!-- Mockup Image 1:1 -->
                                 <div class="w-full aspect-square rounded-2xl overflow-hidden bg-white border border-meraki-border shadow-sm mt-8 sm:mt-2">
-                                    <img src="meraki phase 2.jpg" alt="สูตร Endo" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                                    <img src="assets/formula-2-2.jpg" alt="สูตร Endo 2+2" class="w-full h-full object-cover hover:scale-105 transition duration-300">
                                 </div>
 
                                 <div class="space-y-2 w-full pt-1">
@@ -838,7 +894,7 @@
 
                         <!-- Payment Details Display -->
                         <div class="bg-white p-2 rounded-3xl border border-meraki-border max-w-[320px] mx-auto text-center shadow-md hover:shadow-lg transition-shadow">
-                            <img src="meraki .jpg" alt="KBANK Payment Details" class="w-full h-auto rounded-2xl drop-shadow-sm">
+                            <img src="assets/payment-qr.png" alt="KBANK Payment Details" class="w-full h-auto rounded-2xl drop-shadow-sm">
                         </div>
 
                         <!-- Bank Account Detail Card -->
@@ -1528,6 +1584,34 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             initScrollReveal();
+        });
+
+        // ---- Basic content-protection deterrents ----
+        // Note: these only discourage casual copying; they cannot fully
+        // prevent viewing source, since any browser can always render HTML/CSS/JS.
+        function isFormField(el) {
+            return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+        }
+
+        document.addEventListener('contextmenu', (e) => {
+            if (!isFormField(e.target)) e.preventDefault();
+        });
+
+        document.addEventListener('dragstart', (e) => {
+            if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (isFormField(e.target)) return;
+            const key = e.key ? e.key.toLowerCase() : '';
+            const blockCombo =
+                (e.ctrlKey || e.metaKey) && ['u', 's'].includes(key) ||
+                (e.ctrlKey || e.metaKey) && e.shiftKey && ['i', 'j', 'c'].includes(key) ||
+                key === 'f12';
+            if (blockCombo) {
+                e.preventDefault();
+                return false;
+            }
         });
     </script>
 </body>
