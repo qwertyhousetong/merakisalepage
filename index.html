@@ -676,12 +676,7 @@
             <div class="text-center space-y-2">
                 <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">OFFERS & CHECKOUT</span>
                 <h2 class="text-2xl sm:text-4xl font-extrabold text-meraki-cacao">เลือกแพ็กเกจที่คุณต้องการ</h2>
-                <p class="text-sm text-meraki-warmgrey font-medium">ปั่นสดใหม่ทุกรอบ • จัดส่งฟรี Flash Express ทั่วไทย</p>
-                
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-meraki-red-light text-meraki-red border border-meraki-border text-xs font-bold mt-2">
-                    <i class="fa-regular fa-clock text-[11px]"></i>
-                    <span>รอบปั่นสดใหม่ปิดรับใน: <span id="countdown-timer" class="font-helvetica font-extrabold text-sm">05:28:44</span></span>
-                </div>
+                <p class="text-sm text-meraki-warmgrey font-medium">ปั่นสดใหม่ทุกออเดอร์ • จัดส่งฟรี Flash Express ทั่วไทย</p>
             </div>
 
             <!-- CHECKOUT FORM (Separated into 3 distinct cards) -->
@@ -694,50 +689,67 @@
                         <h3 class="font-bold text-base sm:text-lg text-meraki-cacao">เลือกเซ็ตและสูตรโภชนาการที่ต้องการ <span class="text-meraki-red">*</span></h3>
                     </div>
 
-                    <!-- Packages Radio Select Cards (compact 3-up grid) -->
-                    <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                    <!-- Packages Radio Select Cards (3 stacked rows) -->
+                    <div class="space-y-3">
 
                         <!-- Package 1: 1 Month (DEFAULT SELECTED) -->
-                        <label class="package-item active relative bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-red rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 cursor-pointer transition shadow-float ring-4 ring-meraki-red/20 flex flex-col items-center text-center gap-1 sm:gap-1.5">
+                        <label class="package-item active relative bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-red rounded-2xl p-4 sm:p-5 cursor-pointer transition shadow-float ring-4 ring-meraki-red/20 flex items-center gap-3 sm:gap-4">
                             <input type="radio" name="pack_select" value="set1" data-title="เซ็ตทดลอง (2 ถุง สำหรับ 1 เดือน)" data-price="1790" checked onchange="onPackageSelect(this)" class="sr-only">
-                            <span class="custom-radio w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 transition-colors shadow-sm">
-                                <span class="dot w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white"></span>
+                            <span class="custom-radio w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 transition-colors shadow-sm">
+                                <span class="dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white"></span>
                             </span>
-                            <span class="font-extrabold text-[11px] sm:text-base text-meraki-cacao leading-tight">1 เดือน</span>
-                            <div class="text-base sm:text-2xl font-helvetica font-extrabold text-meraki-cacao leading-none">฿1,790</div>
-                            <div class="text-[8px] sm:text-[10px] font-bold text-meraki-muted font-helvetica">~64.-/วัน</div>
-                            <span class="text-[7px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-100 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full">ส่งฟรี</span>
+                            <div class="flex-1 text-left">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="font-extrabold text-sm sm:text-base text-meraki-cacao">1 เดือน</span>
+                                    <span class="text-[9px] sm:text-[10px] font-bold text-emerald-800 bg-emerald-100 px-1.5 sm:px-2 py-0.5 rounded-full">ส่งฟรี</span>
+                                </div>
+                                <div class="text-[10px] sm:text-xs font-bold text-meraki-muted font-helvetica">~64.-/วัน</div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <div class="text-base sm:text-xl font-helvetica font-extrabold text-meraki-cacao leading-none">฿1,790</div>
+                            </div>
                         </label>
 
                         <!-- Package 2: 3 Months -->
-                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 pt-4 sm:pt-6 cursor-pointer transition shadow-card-lift flex flex-col items-center text-center gap-1 sm:gap-1.5">
+                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl p-4 sm:p-5 cursor-pointer transition shadow-card-lift flex items-center gap-3 sm:gap-4">
                             <input type="radio" name="pack_select" value="set3" data-title="เซ็ต 3 เดือน (6 ถุง สำหรับ 3 เดือน)" data-price="4680" onchange="onPackageSelect(this)" class="sr-only">
-                            <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-meraki-cacao text-white text-[7px] sm:text-[10px] font-extrabold px-2 sm:px-3 py-0.5 rounded-full shadow-md whitespace-nowrap">
-                                ยอดนิยมสูงสุด
+                            <span class="custom-radio w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-meraki-border bg-transparent flex items-center justify-center shrink-0 shadow-sm">
+                                <span class="dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-transparent"></span>
                             </span>
-                            <span class="custom-radio w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-meraki-border bg-transparent flex items-center justify-center shrink-0 shadow-sm">
-                                <span class="dot w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-transparent"></span>
-                            </span>
-                            <span class="font-extrabold text-[11px] sm:text-base text-meraki-cacao leading-tight">3 เดือน</span>
-                            <div class="text-base sm:text-2xl font-helvetica font-extrabold text-meraki-red leading-none">฿4,680</div>
-                            <div class="text-[8px] sm:text-[10px] font-bold text-meraki-muted font-helvetica">~52.-/วัน</div>
-                            <span class="text-[7px] sm:text-[11px] font-bold text-rose-800 bg-rose-100 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full">คุ้มสุด</span>
+                            <div class="flex-1 text-left">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="font-extrabold text-sm sm:text-base text-meraki-cacao">3 เดือน</span>
+                                    <span class="text-[9px] sm:text-[10px] font-bold text-rose-800 bg-rose-100 px-1.5 sm:px-2 py-0.5 rounded-full">คุ้มสุด</span>
+                                </div>
+                                <div class="text-[10px] sm:text-xs font-bold text-meraki-muted font-helvetica">~52.-/วัน</div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <div class="text-[10px] sm:text-xs font-helvetica font-bold text-meraki-muted line-through leading-none">฿5,370</div>
+                                <div class="text-base sm:text-xl font-helvetica font-extrabold text-meraki-red leading-none">฿4,680</div>
+                            </div>
                         </label>
 
                         <!-- Package 3: 6 Months -->
-                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 cursor-pointer transition shadow-card-lift group flex flex-col items-center text-center gap-1 sm:gap-1.5">
+                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl p-4 sm:p-5 cursor-pointer transition shadow-card-lift group flex items-center gap-3 sm:gap-4">
                             <input type="radio" name="pack_select" value="set6" data-title="เซ็ต 6 เดือน (12 ถุง สำหรับ 6 เดือน)" data-price="8880" onchange="onPackageSelect(this)" class="sr-only">
-                            <span class="custom-radio w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-meraki-border flex items-center justify-center shrink-0 group-hover:border-meraki-red transition-colors">
-                                <span class="dot w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-transparent"></span>
+                            <span class="custom-radio w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-meraki-border flex items-center justify-center shrink-0 group-hover:border-meraki-red transition-colors">
+                                <span class="dot w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-transparent"></span>
                             </span>
-                            <span class="font-extrabold text-[11px] sm:text-base text-meraki-cacao leading-tight">6 เดือน</span>
-                            <div class="text-base sm:text-2xl font-helvetica font-extrabold text-meraki-cacao leading-none">฿8,880</div>
-                            <div class="text-[8px] sm:text-[10px] font-bold text-meraki-muted font-helvetica">~49.-/วัน</div>
-                            <span class="text-[7px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-100 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full">ส่งฟรี</span>
+                            <div class="flex-1 text-left">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="font-extrabold text-sm sm:text-base text-meraki-cacao">6 เดือน</span>
+                                    <span class="text-[9px] sm:text-[10px] font-bold text-emerald-800 bg-emerald-100 px-1.5 sm:px-2 py-0.5 rounded-full">ส่งฟรี</span>
+                                </div>
+                                <div class="text-[10px] sm:text-xs font-bold text-meraki-muted font-helvetica">~49.-/วัน</div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <div class="text-[10px] sm:text-xs font-helvetica font-bold text-meraki-muted line-through leading-none">฿10,740</div>
+                                <div class="text-base sm:text-xl font-helvetica font-extrabold text-meraki-cacao leading-none">฿8,880</div>
+                            </div>
                         </label>
 
                     </div>
-                    <p class="text-[11px] sm:text-xs text-meraki-warmgrey text-center font-medium -mt-4">ปั่นสดใหม่ทยอยจัดส่งให้ฟรีทีละเดือนสำหรับแพ็ก 3 และ 6 เดือน</p>
+                    <p class="text-[11px] sm:text-xs text-meraki-warmgrey text-center font-medium">ปั่นสดใหม่ทยอยจัดส่งให้ฟรีทีละเดือนสำหรับแพ็ก 3 และ 6 เดือน</p>
 
                     <!-- Step 1.2: Formula Selection -->
                     <div class="space-y-4 pt-6 border-t border-meraki-border">
@@ -1349,19 +1361,6 @@
                 });
             }
         });
-
-        // Countdown Timer
-        let totalSeconds = 5 * 3600 + 28 * 60 + 44;
-        setInterval(() => {
-            if (totalSeconds > 0) {
-                totalSeconds--;
-                const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-                const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-                const s = String(totalSeconds % 60).padStart(2, '0');
-                const el = document.getElementById('countdown-timer');
-                if (el) el.innerText = `${h}:${m}:${s}`;
-            }
-        }, 1000);
 
         // Toast Reviews Slider
         const customerReviews = [
