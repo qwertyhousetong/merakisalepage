@@ -15,9 +15,6 @@
     
     <!-- Font Awesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- QRCode.js (Pure Vector QR Generation - 100% Offline) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <script>
         window.tailwind = window.tailwind || {};
@@ -72,6 +69,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
         /* Strict Helvetica enforcement for numbers, prices, tags, and codes */
+        .font-num, .font-helvetica, [class*="tracking-wide"], .currency-symbol, .price-display {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
         }
         input[type="radio"], input[type="checkbox"] {
@@ -83,6 +81,7 @@
         details[open] summary .chevron-icon {
             transform: rotate(180deg);
         }
+        /* Hide scrollbars while preserving touch scrollability */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -94,11 +93,6 @@
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-        }
-        /* Custom Pouch Shape Classes for Visuals */
-        .pouch-shape {
-            border-radius: 12px 12px 24px 24px;
-            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.05);
         }
         /* Scroll Reveal Animations */
         .reveal {
@@ -130,11 +124,18 @@
         @keyframes loader-dots1 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         @keyframes loader-dots3 { 0% { transform: scale(1); } 100% { transform: scale(0); } }
         @keyframes loader-dots2 { 0% { transform: translate(0, 0); } 100% { transform: translate(24px, 0); } }
+        
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="relative text-base selection:bg-meraki-pink selection:text-meraki-cacao min-h-screen">
 
-    <!-- Top Announcement Bar (Centered as per req 1) -->
+    <!-- Top Announcement Bar (Centered) -->
     <div class="bg-gradient-to-r from-meraki-red via-meraki-red-vibrant to-meraki-red text-white py-2 px-4 text-xs font-semibold tracking-wide shadow-xs">
         <div class="max-w-4xl mx-auto flex items-center justify-center text-center gap-3">
             <span class="flex items-center gap-2">
@@ -186,24 +187,24 @@
                     <span class="text-meraki-red">ในแต่ละช่วงของรอบเดือน</span>
                 </h1>
                 
-                <!-- Bullet Points (Req 3) -->
-                <ul class="text-base sm:text-lg text-meraki-warmgrey font-medium leading-relaxed text-left max-w-md mx-auto space-y-3 bg-white/60 backdrop-blur-sm p-5 rounded-[24px] border border-meraki-border shadow-sm">
-                    <li class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-circle-check text-meraki-red mt-1 text-sm"></i> 
+                <!-- Bullet Points -->
+                <ul class="text-sm sm:text-base text-meraki-warmgrey font-medium leading-relaxed text-left max-w-sm mx-auto space-y-2 px-2 pt-2">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-meraki-red mt-1 text-xs shrink-0"></i> 
                         <span>ปรับสมดุลตามธรรมชาติ</span>
                     </li>
-                    <li class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-circle-check text-meraki-red mt-1 text-sm"></i> 
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-meraki-red mt-1 text-xs shrink-0"></i> 
                         <span>ลดอาการก่อนมีประจำเดือน (PMS) และปวดท้อง</span>
                     </li>
-                    <li class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-circle-check text-meraki-red mt-1 text-sm"></i> 
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-meraki-red mt-1 text-xs shrink-0"></i> 
                         <span>ลดสิวฮอร์โมน โดยไม่ต้องพึ่งฮอร์โมนสังเคราะห์</span>
                     </li>
                 </ul>
             </div>
 
-            <!-- 1:1 HERO IMAGE (Req 2) -->
+            <!-- 1:1 HERO IMAGE -->
             <div class="max-w-sm sm:max-w-md mx-auto relative rounded-[32px] overflow-hidden border-4 border-white shadow-card-lift bg-meraki-cream">
                 <div class="relative w-full aspect-square bg-meraki-cream flex items-center justify-center">
                     <img src="https://images.unsplash.com/photo-1601314167099-232775949887?w=800&auto=format&fit=crop&q=80" alt="Meraki Seed Cycling Bowls" class="w-full h-full object-cover hover:scale-105 transition duration-700">
@@ -231,7 +232,7 @@
                 </div>
             </div>
 
-            <!-- Emotional Resonance Text & Common Symptoms (Req 4: Emojis & Larger Fonts) -->
+            <!-- Emotional Resonance Text & Common Symptoms -->
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-meraki-border shadow-apple-glass max-w-2xl mx-auto space-y-5 text-center">
                 <p class="text-sm sm:text-base text-meraki-warmgrey leading-relaxed font-medium">
                     บางเดือนเราไม่ได้ขี้หงุดหงิด ไม่ได้คิดมาก และไม่ได้อ่อนแอ <br>
@@ -255,7 +256,7 @@
             <!-- 6 Core Values / Trust Features (Interactive) -->
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6 max-w-3xl mx-auto">
                 
-                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col items-center justify-center gap-2 focus:outline-none">
+                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full min-h-[140px] flex flex-col items-center justify-center gap-2 focus:outline-none">
                     <i class="fa-solid fa-user-doctor text-2xl text-meraki-red/80 group-hover:text-meraki-red group-focus:text-meraki-red transition-colors"></i>
                     <h4 class="font-bold text-xs sm:text-sm text-meraki-cacao">Dietitian-Owned</h4>
                     <div class="text-[10px] sm:text-xs text-meraki-warmgrey max-h-0 opacity-0 group-hover:max-h-20 group-hover:opacity-100 group-focus:max-h-20 group-focus:opacity-100 overflow-hidden transition-all duration-300 ease-in-out mt-1">
@@ -263,7 +264,7 @@
                     </div>
                 </div>
                 
-                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col items-center justify-center gap-2 focus:outline-none">
+                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full min-h-[140px] flex flex-col items-center justify-center gap-2 focus:outline-none">
                     <i class="fa-solid fa-microscope text-2xl text-meraki-red/80 group-hover:text-meraki-red group-focus:text-meraki-red transition-colors"></i>
                     <h4 class="font-bold text-xs sm:text-sm text-meraki-cacao">Science-Backed</h4>
                     <div class="text-[10px] sm:text-xs text-meraki-warmgrey max-h-0 opacity-0 group-hover:max-h-20 group-hover:opacity-100 group-focus:max-h-20 group-focus:opacity-100 overflow-hidden transition-all duration-300 ease-in-out mt-1">
@@ -271,7 +272,7 @@
                     </div>
                 </div>
 
-                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col items-center justify-center gap-2 focus:outline-none">
+                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full min-h-[140px] flex flex-col items-center justify-center gap-2 focus:outline-none">
                     <i class="fa-solid fa-stethoscope text-2xl text-meraki-red/80 group-hover:text-meraki-red group-focus:text-meraki-red transition-colors"></i>
                     <h4 class="font-bold text-xs sm:text-sm text-meraki-cacao">Doctor Approved</h4>
                     <div class="text-[10px] sm:text-xs text-meraki-warmgrey max-h-0 opacity-0 group-hover:max-h-20 group-hover:opacity-100 group-focus:max-h-20 group-focus:opacity-100 overflow-hidden transition-all duration-300 ease-in-out mt-1">
@@ -279,7 +280,7 @@
                     </div>
                 </div>
 
-                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col items-center justify-center gap-2 focus:outline-none">
+                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full min-h-[140px] flex flex-col items-center justify-center gap-2 focus:outline-none">
                     <i class="fa-solid fa-mortar-pestle text-2xl text-meraki-red/80 group-hover:text-meraki-red group-focus:text-meraki-red transition-colors"></i>
                     <h4 class="font-bold text-xs sm:text-sm text-meraki-cacao">Ready to Use</h4>
                     <div class="text-[10px] sm:text-xs text-meraki-warmgrey max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-focus:max-h-24 group-focus:opacity-100 overflow-hidden transition-all duration-300 ease-in-out mt-1">
@@ -287,7 +288,7 @@
                     </div>
                 </div>
 
-                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col items-center justify-center gap-2 focus:outline-none">
+                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full min-h-[140px] flex flex-col items-center justify-center gap-2 focus:outline-none">
                     <i class="fa-solid fa-leaf text-2xl text-meraki-red/80 group-hover:text-meraki-red group-focus:text-meraki-red transition-colors"></i>
                     <h4 class="font-bold text-xs sm:text-sm text-meraki-cacao">Natural Healing</h4>
                     <div class="text-[10px] sm:text-xs text-meraki-warmgrey max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 group-focus:max-h-24 group-focus:opacity-100 overflow-hidden transition-all duration-300 ease-in-out mt-1">
@@ -295,7 +296,7 @@
                     </div>
                 </div>
 
-                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full flex flex-col items-center justify-center gap-2 focus:outline-none">
+                <div tabindex="0" class="group cursor-pointer bg-white border border-meraki-border focus:border-meraki-red hover:border-meraki-red rounded-2xl p-4 text-center transition-all duration-300 shadow-sm hover:shadow-md h-full min-h-[140px] flex flex-col items-center justify-center gap-2 focus:outline-none">
                     <i class="fa-solid fa-seedling text-2xl text-meraki-red/80 group-hover:text-meraki-red group-focus:text-meraki-red transition-colors"></i>
                     <h4 class="font-bold text-xs sm:text-sm text-meraki-cacao">Organic 100%</h4>
                     <div class="text-[10px] sm:text-xs text-meraki-warmgrey max-h-0 opacity-0 group-hover:max-h-20 group-hover:opacity-100 group-focus:max-h-20 group-focus:opacity-100 overflow-hidden transition-all duration-300 ease-in-out mt-1">
@@ -306,7 +307,7 @@
 
         </section>
 
-        <!-- 04 — PHASE BREAKDOWN (Req 6: Real Pouch Visuals instead of boxes, Phase 1 Pink, Phase 2 Red) -->
+        <!-- 04 — PHASE BREAKDOWN -->
         <section class="space-y-6">
             <div class="text-center space-y-2">
                 <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">04 — NUTRITION BREAKDOWN</span>
@@ -326,9 +327,9 @@
                         <span class="text-[9px] sm:text-sm font-bold font-helvetica text-meraki-cacao">DAY 1 – 14</span>
                     </div>
 
-                    <!-- 1:1 Image Mockup for Phase 1 -->
-                    <div class="w-16 sm:w-48 aspect-square mx-auto relative rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-meraki-border shadow-md group-hover:scale-105 transition duration-300">
-                        <img src="https://placehold.co/400x400/F8B4C0/1C0D0B?text=Phase+1\nPink+Pouch" alt="ซองสีชมพู Phase 1" class="w-full h-full object-cover">
+                    <!-- Full Mockup Image for Phase 1 -->
+                    <div class="w-full aspect-square relative rounded-2xl overflow-hidden group-hover:scale-105 transition duration-500 bg-white">
+                        <img src="meraki phase 1.jpg" alt="ซองสีชมพู Phase 1" class="w-full h-full object-cover">
                     </div>
 
                     <div class="relative z-10 text-center space-y-1 sm:space-y-2 pt-1 sm:pt-2 flex-grow">
@@ -355,9 +356,9 @@
                         <span class="text-[9px] sm:text-sm font-bold font-helvetica text-meraki-cacao">DAY 15 – รอบถัดไป</span>
                     </div>
 
-                    <!-- 1:1 Image Mockup for Phase 2 -->
-                    <div class="w-16 sm:w-48 aspect-square mx-auto relative rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-meraki-border shadow-md group-hover:scale-105 transition duration-300">
-                        <img src="https://placehold.co/400x400/B71C1C/FFFFFF?text=Phase+2\nRed+Pouch" alt="ซองสีแดง Phase 2" class="w-full h-full object-cover">
+                    <!-- Full Mockup Image for Phase 2 -->
+                    <div class="w-full aspect-square relative rounded-2xl overflow-hidden group-hover:scale-105 transition duration-500 bg-white">
+                        <img src="meraki phase 2.jpg" alt="ซองสีแดง Phase 2" class="w-full h-full object-cover">
                     </div>
 
                     <div class="relative z-10 text-center space-y-1 sm:space-y-2 pt-1 sm:pt-2 flex-grow">
@@ -375,7 +376,7 @@
             </div>
         </section>
 
-        <!-- INTERACTIVE: SYMPTOM MATCHER QUIZ (Req 7: Update Logic & Options) -->
+        <!-- INTERACTIVE: SYMPTOM MATCHER QUIZ -->
         <section class="bg-white rounded-[32px] p-6 sm:p-8 border border-meraki-border shadow-card-lift space-y-6">
             <div class="text-center space-y-1">
                 <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">SELF-ASSESSMENT QUIZ</span>
@@ -428,31 +429,31 @@
                     <span class="text-xs font-bold text-meraki-red mt-3 animate-pulse tracking-wide">AI กำลังวิเคราะห์สูตรที่เหมาะกับคุณ...</span>
                 </div>
 
-                <div class="space-y-2 text-center sm:text-left relative z-0">
-                    <div class="flex items-center justify-center sm:justify-start gap-2">
-                        <span id="quiz-match-percent" class="px-3 py-1 rounded-full bg-meraki-red text-white text-[11px] font-helvetica font-extrabold tracking-wide transition-all duration-500">วิเคราะห์ผลลัพธ์...</span>
-                        <span class="text-sm font-bold text-meraki-red">สูตรโภชนาการของคุณ</span>
+                <div class="space-y-2 text-center sm:text-left relative z-0 flex-1">
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                        <span id="quiz-match-percent" class="px-3 py-1 rounded-full bg-meraki-border text-meraki-warmgrey text-[11px] font-helvetica font-extrabold tracking-wide transition-all duration-500">รอการวิเคราะห์</span>
+                        <span class="text-sm font-bold text-meraki-red">สูตรที่แนะนำ</span>
                     </div>
                     <h3 id="quiz-result-title" class="text-lg sm:text-xl font-extrabold text-meraki-cacao transition-all duration-500">กรุณาเลือกอาการเพื่อดูคำแนะนำ</h3>
-                    <p id="quiz-result-desc" class="text-sm text-meraki-warmgrey max-w-lg leading-relaxed font-medium transition-all duration-500">
-                        เราจะประมวลผลเพื่อเลือกแพ็กเกจและสูตรซองที่เหมาะสมกับการปรับสมดุลร่างกายคุณมากที่สุด
+                    <p id="quiz-result-desc" class="text-sm text-meraki-warmgrey leading-relaxed font-medium transition-all duration-500">
+                        เราจะประมวลผลเพื่อเลือกแพ็กเกจและสูตรที่เหมาะสมกับการปรับสมดุลร่างกายคุณมากที่สุด
                     </p>
                 </div>
                 <button type="button" onclick="autoSelectRecommendedPackage()" class="btn-premium px-6 py-3 rounded-full bg-meraki-cacao text-white text-sm font-bold hover:bg-meraki-warmgrey transition shrink-0 relative z-0">
-                    เลือกเซ็ตแนะนำนี้ทันที
+                    เลือกสูตรนี้ทันที
                 </button>
             </div>
         </section>
 
-        <!-- 06 — SOCIAL PROOF & CAROUSELS (Req 8 & 9) -->
+        <!-- 06 — SOCIAL PROOF & CAROUSELS -->
         <section class="space-y-10">
             <div class="text-center space-y-2">
                 <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">06 — REAL COMMUNITY</span>
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-meraki-cacao">ผลลัพธ์จริงจากลูกค้า</h2>
-                <p class="text-base text-meraki-warmgrey font-medium">ผลลัพธ์จากลูกค้าที่ทาน Seed Cycling ต่อเนื่อง 3 เดือน</p>
+                <p class="text-base text-meraki-warmgrey font-medium">ผลลัพธ์จากลูกค้าที่ทานต่อเนื่อง 3 เดือน</p>
             </div>
 
-            <!-- Video Reviews Slider (Req 8) -->
+            <!-- Video Reviews Slider -->
             <div class="relative w-full overflow-hidden">
                 <div id="video-reviews-slider" class="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-4 px-4 sm:px-0">
                     
@@ -538,7 +539,7 @@
                 </div>
             </div>
 
-            <!-- Real Chat Reviews Slider (Req 9) -->
+            <!-- Real Chat Reviews Slider -->
             <div class="space-y-4 pt-4 border-t border-meraki-border">
                 <div class="flex items-center justify-between px-1">
                     <span class="text-sm font-black text-meraki-cacao">บทสนทนาจริงจากผู้ใช้ทาง LINE</span>
@@ -569,7 +570,7 @@
             </div>
         </section>
 
-        <!-- 08 — CLINICAL TRIAL EVIDENCE (Req 13: Colored Stats) -->
+        <!-- 08 — CLINICAL TRIAL EVIDENCE -->
         <section class="bg-white rounded-[32px] p-6 sm:p-8 border border-meraki-border shadow-card-lift space-y-5">
             <div class="space-y-2 text-center sm:text-left border-b border-meraki-border pb-4">
                 <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">CLINICAL OBSERVATION</span>
@@ -612,7 +613,7 @@
             </div>
         </section>
 
-        <!-- 10 — PACKAGES & CHECKOUT (Req 10: 1, 3, 6 Months Only) -->
+        <!-- 10 — PACKAGES & CHECKOUT -->
         <section id="checkout" class="space-y-8 pt-4">
             
             <div class="text-center space-y-2">
@@ -629,7 +630,7 @@
             <!-- CHECKOUT FORM (Separated into 3 distinct cards) -->
             <form id="order-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
                 
-                <!-- CARD 1: PACKAGE & FORMULA (เซ็ตอยู่ด้วยกัน) -->
+                <!-- CARD 1: PACKAGE & FORMULA -->
                 <div class="bg-white rounded-[32px] border border-meraki-border p-6 sm:p-10 space-y-8 shadow-card-lift">
                     <div class="flex items-center gap-3 border-b border-meraki-border pb-3">
                         <span class="w-8 h-8 rounded-full bg-meraki-red text-white text-sm font-helvetica font-bold flex items-center justify-center shadow-sm">1</span>
@@ -690,7 +691,7 @@
                                 </div>
                                 <div class="text-right shrink-0">
                                     <div class="text-2xl font-helvetica font-extrabold text-meraki-red">฿4,680</div>
-                                    <div class="text-[10px] font-bold text-meraki-muted mt-0.5 font-helvetica">เฉลี่ย ~56.- / วัน</div>
+                                    <div class="text-[10px] font-bold text-meraki-muted mt-0.5 font-helvetica">เฉลี่ย ~52.- / วัน</div>
                                     <span class="text-[11px] font-bold text-rose-800 bg-rose-100 px-3 py-1 rounded-full inline-block mt-1 shadow-sm">ยอดนิยมสูงสุด</span>
                                 </div>
                             </div>
@@ -716,7 +717,7 @@
                                 </div>
                                 <div class="text-right shrink-0">
                                     <div class="text-2xl font-helvetica font-extrabold text-meraki-cacao">฿8,880</div>
-                                    <div class="text-[10px] font-bold text-meraki-muted mt-0.5 font-helvetica">เฉลี่ย ~53.- / วัน</div>
+                                    <div class="text-[10px] font-bold text-meraki-muted mt-0.5 font-helvetica">เฉลี่ย ~49.- / วัน</div>
                                     <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full inline-block mt-1">ส่งฟรี</span>
                                 </div>
                             </div>
@@ -726,7 +727,7 @@
 
                     <!-- Step 1.2: Formula Selection -->
                     <div class="space-y-4 pt-6 border-t border-meraki-border">
-                        <h4 class="font-bold text-base text-meraki-cacao">เลือกสูตรโภชนาการ (แนะนำตามอาการ): <span class="text-meraki-red">*</span></h4>
+                        <h4 class="font-bold text-base text-meraki-cacao">เลือกสูตรที่แนะนำสำหรับคุณ: <span class="text-meraki-red">*</span></h4>
 
                         <!-- Locked 2 Columns Layout for Formulas -->
                         <div class="grid grid-cols-2 gap-3 sm:gap-5">
@@ -743,8 +744,9 @@
                                 </div>
 
                                 <!-- Mockup Image 1:1 -->
-                                <div class="w-full aspect-square rounded-2xl overflow-hidden bg-white border border-meraki-border shadow-sm mt-8 sm:mt-2">
-                                    <img src="https://placehold.co/400x400/F8B4C0/1C0D0B?text=1+Plus+2\nStandard" alt="สูตรมาตรฐาน" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                                <div class="w-full aspect-square rounded-2xl overflow-hidden bg-white border border-meraki-border shadow-sm mt-8 sm:mt-2 relative">
+                                    <img src="meraki phase 1.jpg" alt="สูตรมาตรฐาน 1" class="w-full h-full object-cover absolute top-0 left-0 hover:scale-105 transition duration-300" style="clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);">
+                                    <img src="meraki phase 2.jpg" alt="สูตรมาตรฐาน 2" class="w-full h-full object-cover absolute top-0 right-0 hover:scale-105 transition duration-300" style="clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);">
                                 </div>
 
                                 <div class="space-y-2 w-full pt-1">
@@ -768,7 +770,7 @@
 
                                 <!-- Mockup Image 1:1 -->
                                 <div class="w-full aspect-square rounded-2xl overflow-hidden bg-white border border-meraki-border shadow-sm mt-8 sm:mt-2">
-                                    <img src="https://placehold.co/400x400/B71C1C/FFFFFF?text=2+Plus+2\nEndo" alt="สูตร Endo" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                                    <img src="meraki phase 2.jpg" alt="สูตร Endo" class="w-full h-full object-cover hover:scale-105 transition duration-300">
                                 </div>
 
                                 <div class="space-y-2 w-full pt-1">
@@ -783,7 +785,7 @@
                     </div>
                 </div>
 
-                <!-- CARD 2: ADDRESS (ที่อยู่แยกอีกที) -->
+                <!-- CARD 2: ADDRESS -->
                 <div class="bg-white rounded-[32px] border border-meraki-border p-6 sm:p-10 space-y-6 shadow-card-lift">
                     <div class="flex items-center gap-3 border-b border-meraki-border pb-3">
                         <span class="w-8 h-8 rounded-full bg-meraki-red text-white text-sm font-helvetica font-bold flex items-center justify-center shadow-sm">2</span>
@@ -834,27 +836,17 @@
                             <div id="checkout-amount-display" class="text-4xl font-helvetica font-extrabold text-meraki-red tracking-tight">฿1,790</div>
                         </div>
 
-                        <!-- Dynamic Vector QR Box -->
-                        <div class="bg-white p-5 rounded-3xl border border-meraki-border max-w-[260px] mx-auto text-center space-y-3 shadow-md hover:shadow-lg transition-shadow">
-                            <div id="qrcode-box" class="w-[180px] h-[180px] mx-auto flex items-center justify-center bg-white p-1 rounded-xl"></div>
-                            
-                            <div class="leading-tight space-y-1">
-                                <span class="text-sm font-bold text-meraki-cacao block">สแกนผ่าน Mobile Banking</span>
-                                <span class="text-xs text-meraki-muted block">พร้อมเพย์: <strong class="text-meraki-cacao font-helvetica font-bold text-sm">081-234-5678</strong></span>
-                            </div>
-
-                            <button type="button" onclick="downloadQRCode()" class="w-full py-2 px-3 bg-meraki-cream hover:bg-meraki-pink-soft text-meraki-cacao rounded-xl text-xs font-bold border border-meraki-border transition flex items-center justify-center gap-2 shadow-xs">
-                                <i class="fa-solid fa-download text-meraki-red"></i>
-                                <span>บันทึกภาพ QR ลงเครื่อง</span>
-                            </button>
+                        <!-- Payment Details Display -->
+                        <div class="bg-white p-2 rounded-3xl border border-meraki-border max-w-[320px] mx-auto text-center shadow-md hover:shadow-lg transition-shadow">
+                            <img src="meraki .jpg" alt="KBANK Payment Details" class="w-full h-auto rounded-2xl drop-shadow-sm">
                         </div>
 
                         <!-- Bank Account Detail Card -->
                         <div class="p-4 bg-white rounded-2xl border border-meraki-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm shadow-sm">
                             <div>
                                 <div class="font-extrabold text-meraki-cacao">ธนาคารกสิกรไทย (KBANK)</div>
-                                <div class="text-meraki-warmgrey mt-1">เลขบัญชี: <strong id="acc-number" class="text-meraki-red font-helvetica font-black text-lg ml-1">123-2-98765-4</strong></div>
-                                <div class="text-[11px] font-medium text-meraki-muted mt-0.5">ชื่อบัญชี: บจก. เมรากิ เฮลท์ (ประเทศไทย)</div>
+                                <div class="text-meraki-warmgrey mt-1">เลขบัญชี: <strong id="acc-number" class="text-meraki-red font-helvetica font-black text-lg ml-1">219-176-0061</strong></div>
+                                <div class="text-[11px] font-bold text-meraki-muted mt-0.5 uppercase tracking-wide">ชื่อบัญชี: Nittaya Chinanawin</div>
                             </div>
                             <button type="button" onclick="copyAccountToClipboard()" class="px-4 py-2.5 rounded-xl bg-meraki-cream text-meraki-red font-bold border border-meraki-border hover:bg-meraki-pink-soft transition shrink-0 shadow-xs">
                                 <i class="fa-regular fa-copy mr-1.5"></i> คัดลอกเลขบัญชี
@@ -913,7 +905,7 @@
 
         </section>
 
-        <!-- 12 — FAQ (Req 14: Fully replaced) -->
+        <!-- 12 — FAQ -->
         <section class="bg-white rounded-[32px] p-6 sm:p-10 border border-meraki-border shadow-apple-glass space-y-6">
             <div class="text-center space-y-2">
                 <span class="text-[11px] font-helvetica uppercase tracking-widest text-meraki-red font-bold">QUESTIONS & ANSWERS</span>
@@ -1032,7 +1024,7 @@
 
     </main>
 
-    <!-- Line Contact Bottom (Req 11) -->
+    <!-- Line Contact Bottom -->
     <div class="text-center pb-28 pt-8">
         <a href="https://line.me/R/ti/p/@merakiofficial" target="_blank" class="inline-flex items-center gap-2 text-sm text-meraki-warmgrey font-bold hover:text-meraki-red transition bg-white px-4 py-2 rounded-full shadow-sm border border-meraki-border">
             <i class="fa-brands fa-line text-[#06C755] text-lg"></i>
@@ -1040,7 +1032,7 @@
         </a>
     </div>
 
-    <!-- Order Success Receipt Modal (Req 12: Emphasis on Line for Tracking) -->
+    <!-- Order Success Receipt Modal -->
     <div id="order-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs hidden">
         <div class="bg-white rounded-[32px] max-w-md w-full p-6 sm:p-8 space-y-5 shadow-card-lift border border-meraki-border text-center max-h-[92vh] overflow-y-auto">
             
@@ -1115,7 +1107,12 @@
     </div>
 
     <!-- Floating Verified Customer Result Toast (COMPACT) -->
-    <div id="live-sales-toast" class="fixed bottom-[84px] sm:bottom-6 left-4 z-40 max-w-[260px] bg-white/95 backdrop-blur-md rounded-xl p-2.5 border border-meraki-border shadow-card-lift transition-all duration-500 opacity-0 translate-y-3 pointer-events-none flex items-center gap-2.5">
+    <div id="live-sales-toast" class="fixed bottom-[84px] sm:bottom-6 left-4 z-40 max-w-[260px] bg-white/95 backdrop-blur-md rounded-xl p-2.5 border border-meraki-border shadow-card-lift transition-all duration-500 opacity-0 translate-y-3 pointer-events-none flex items-center gap-2.5 group">
+        <!-- Close Button for Toast -->
+        <button type="button" onclick="closeSalesToast()" class="absolute -top-2 -right-2 w-6 h-6 bg-white border border-meraki-border rounded-full flex items-center justify-center text-meraki-warmgrey hover:text-meraki-red hover:bg-meraki-cream transition-colors shadow-sm cursor-pointer z-50 pointer-events-auto">
+            <i class="fa-solid fa-times text-[10px]"></i>
+        </button>
+
         <div id="toast-avatar" class="w-8 h-8 rounded-full bg-meraki-red-light text-meraki-red flex items-center justify-center font-helvetica font-extrabold text-xs shrink-0 shadow-sm border border-meraki-pink">
             N
         </div>
@@ -1163,6 +1160,83 @@
         let currentFormulaId = "formula1";
         let currentFormulaTitle = "1. สูตรมาตรฐาน 1+2";
         let slipDataUrl = null;
+
+        // Calculate Quiz Match Logic
+        function calculateSymptomMatch() {
+            const checkboxes = document.querySelectorAll('input[name="symptom"]:checked');
+            const vals = Array.from(checkboxes).map(cb => cb.value);
+
+            if (vals.length === 0) {
+                document.getElementById('quiz-result-title').innerText = "กรุณาเลือกอาการเพื่อดูคำแนะนำ";
+                document.getElementById('quiz-result-desc').innerText = "เราจะประมวลผลเพื่อเลือกแพ็กเกจและสูตรซองที่เหมาะสมกับการปรับสมดุลร่างกายคุณมากที่สุด";
+                const badge = document.getElementById('quiz-match-percent');
+                badge.innerText = "รอการวิเคราะห์";
+                badge.className = "px-3 py-1 rounded-full bg-meraki-border text-meraki-warmgrey text-[11px] font-helvetica font-extrabold tracking-wide transition-all duration-500";
+                return;
+            }
+
+            // Show loading
+            document.getElementById('quiz-loading').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('quiz-loading').classList.add('hidden');
+
+                const isEndo = vals.includes('endo') || vals.includes('cramp_severe');
+                const manySymptoms = vals.length > 1;
+
+                let title = "สูตรมาตรฐาน 1+2 (เซ็ต 1 เดือน)";
+                let desc = "เหมาะสำหรับการเริ่มต้นปรับสมดุลฮอร์โมนทั่วไป ลดสิว และลดอาการ PMS ให้ร่างกายค่อยๆ ฟื้นฟูตามธรรมชาติ";
+                let recFormula = "formula1";
+                let recPack = "set1";
+                let match = "92% MATCH";
+
+                if (isEndo) {
+                    title = "สูตร Endo 2+2 (แนะนำเซ็ต 3 เดือน)";
+                    desc = "เน้นลดการอักเสบ บรรเทาอาการปวดท้องรุนแรง และภาวะเยื่อบุมดลูกเจริญผิดที่ แนะนำทานต่อเนื่อง 3 เดือนเพื่อฟื้นฟูลึกถึงต้นตอ";
+                    recFormula = "formula2";
+                    recPack = "set3";
+                    match = "98% MATCH";
+                } else if (manySymptoms) {
+                    title = "สูตรมาตรฐาน 1+2 (แนะนำเซ็ต 3 เดือน)";
+                    desc = "เนื่องจากมีอาการกวนใจหลายอย่าง แนะนำให้ทานต่อเนื่อง 3 เดือนเพื่อให้ร่างกายได้ปรับวงจรฮอร์โมนอย่างเต็มประสิทธิภาพ";
+                    recFormula = "formula1";
+                    recPack = "set3";
+                    match = "96% MATCH";
+                }
+
+                document.getElementById('quiz-result-title').innerText = title;
+                document.getElementById('quiz-result-desc').innerText = desc;
+                
+                const badge = document.getElementById('quiz-match-percent');
+                badge.innerText = match;
+                badge.className = "px-3 py-1 rounded-full bg-meraki-red text-white text-[11px] font-helvetica font-extrabold tracking-wide transition-all duration-500 shadow-sm";
+
+                // Save recommendation for auto-select
+                window.recommendedPackage = recPack;
+                window.recommendedFormula = recFormula;
+
+            }, 800);
+        }
+
+        // Auto Select Recommended Set based on Quiz
+        function autoSelectRecommendedPackage() {
+            if (window.recommendedPackage) {
+                const packRadio = document.querySelector(`input[name="pack_select"][value="${window.recommendedPackage}"]`);
+                if (packRadio) {
+                    packRadio.checked = true;
+                    onPackageSelect(packRadio);
+                }
+            }
+            if (window.recommendedFormula) {
+                const formulaRadio = document.querySelector(`input[name="formula_select"][value="${window.recommendedFormula}"]`);
+                if (formulaRadio) {
+                    formulaRadio.checked = true;
+                    onFormulaSelect(formulaRadio);
+                }
+            }
+            document.getElementById('checkout').scrollIntoView({ behavior: 'smooth' });
+            showToast("เลือกสูตรที่เหมาะสมให้คุณเรียบร้อยแล้วค่ะ");
+        }
 
         function autoExtractAddress() {
             const rawText = document.getElementById('smart-paste-input').value.trim();
@@ -1233,10 +1307,9 @@
             if (!toast) return;
 
             const item = customerReviews[reviewIndex];
-            document.getElementById('toast-avatar').innerText = item.initial;
-            document.getElementById('toast-buyer-name').innerText = item.name;
-            document.getElementById('toast-buyer-review').innerText = item.review;
-            document.getElementById('toast-buyer-tag').innerText = `• ทานเซ็ต 3 เดือน: ${item.tag}`;
+            if (document.getElementById('toast-avatar')) document.getElementById('toast-avatar').innerText = item.initial;
+            if (document.getElementById('toast-buyer-name')) document.getElementById('toast-buyer-name').innerText = item.name;
+            if (document.getElementById('toast-buyer-review')) document.getElementById('toast-buyer-review').innerText = item.review;
 
             toast.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
             toast.classList.add('opacity-100', 'translate-y-0');
@@ -1249,81 +1322,27 @@
             reviewIndex = (reviewIndex + 1) % customerReviews.length;
         }
 
+        let toastInterval;
+        let isToastClosed = false;
+
         setTimeout(() => {
-            cycleReviewToast();
-            setInterval(cycleReviewToast, 11000);
+            if (!isToastClosed) cycleReviewToast();
+            toastInterval = setInterval(() => {
+                if (!isToastClosed) cycleReviewToast();
+            }, 11000);
         }, 2000);
 
-        // QR Code & Payment Logic
-        function calculateCRC16(payload) {
-            let crc = 0xFFFF;
-            for (let i = 0; i < payload.length; i++) {
-                crc ^= payload.charCodeAt(i) << 8;
-                for (let j = 0; j < 8; j++) {
-                    if ((crc & 0x8000) !== 0) crc = (crc << 1) ^ 0x1021;
-                    else crc = crc << 1;
-                }
+        function closeSalesToast() {
+            isToastClosed = true;
+            clearInterval(toastInterval);
+            const toast = document.getElementById('live-sales-toast');
+            if (toast) {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 500);
             }
-            return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
-        }
-
-        function createTLV(tag, val) {
-            const strVal = String(val);
-            const len = strVal.length.toString().padStart(2, '0');
-            return tag + len + strVal;
-        }
-
-        function generatePromptPayEMVCo(recipient, amount) {
-            let sanitized = recipient.replace(/[^0-9]/g, '');
-            let subTag = "01";
-
-            if (sanitized.length >= 10 && sanitized.startsWith('0')) {
-                sanitized = '0066' + sanitized.substring(1);
-                subTag = "01";
-            } else if (sanitized.length === 13) {
-                subTag = "02";
-            }
-
-            const merchantInfo = createTLV("00", "A000000677010111") + createTLV(subTag, sanitized);
-            const tag29 = createTLV("29", merchantInfo);
-
-            let rawPayload = 
-                createTLV("00", "01") +
-                createTLV("01", amount ? "12" : "11") +
-                tag29 +
-                createTLV("53", "764") +
-                (amount ? createTLV("54", Number(amount).toFixed(2)) : "") +
-                createTLV("58", "TH") +
-                createTLV("63", "04");
-
-            return rawPayload + calculateCRC16(rawPayload);
-        }
-
-        function renderQRCode(amount) {
-            const container = document.getElementById('qrcode-box');
-            if (!container) return;
-            container.innerHTML = '';
-
-            const emvcoPayload = generatePromptPayEMVCo(PROMPTPAY_NUMBER, amount);
-
-            new QRCode(container, {
-                text: emvcoPayload,
-                width: 180,
-                height: 180,
-                colorDark: "#1C0D0B",
-                colorLight: "#FFFFFF",
-                correctLevel: QRCode.CorrectLevel.M
-            });
-        }
-
-        function downloadQRCode() {
-            const qrCanvas = document.querySelector('#qrcode-box canvas');
-            if (!qrCanvas) return;
-            const link = document.createElement('a');
-            link.download = `PromptPay-Meraki-${currentPackagePrice}THB.png`;
-            link.href = qrCanvas.toDataURL('image/png');
-            link.click();
-            showToast("บันทึกภาพ QR Code ลงเครื่องแล้วค่ะ");
         }
 
         function onPackageSelect(radioInput) {
@@ -1356,8 +1375,6 @@
                 activeRadioBox.classList.add('bg-meraki-red', 'border-meraki-red');
                 activeRadioBox.classList.remove('border-meraki-border');
             }
-
-            renderQRCode(currentPackagePrice);
         }
 
         function onFormulaSelect(radioInput) {
@@ -1398,14 +1415,14 @@
         }
 
         function copyAccountToClipboard() {
-            const rawAcc = document.getElementById('acc-number').innerText.replace(/-/g, '');
+            const rawAcc = "2191760061";
             const temp = document.createElement('input');
             temp.value = rawAcc;
             document.body.appendChild(temp);
             temp.select();
             document.execCommand('copy');
             document.body.removeChild(temp);
-            showToast("คัดลอกเลขบัญชี 123-2-98765-4 เรียบร้อยแล้วค่ะ");
+            showToast("คัดลอกเลขบัญชี 219-176-0061 เรียบร้อยแล้วค่ะ");
         }
 
         function handleSlipFile(evt) {
@@ -1493,8 +1510,23 @@
             sections.forEach(sec => observer.observe(sec));
         }
 
+        function openImageModal(src) {
+            const modal = document.getElementById('image-viewer-modal');
+            const img = document.getElementById('image-viewer-content');
+            if (modal && img) {
+                img.src = src;
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-viewer-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
-            renderQRCode(currentPackagePrice);
             initScrollReveal();
         });
     </script>
