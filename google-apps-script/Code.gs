@@ -17,13 +17,12 @@ const SLIP_DRIVE_FOLDER_ID = '12-RglJbi7w4MOrpfyFk8LC5rl27bm-76'; // Drive folde
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
+
+    // 1) Log to the sheet immediately. This has no external network call, so
+    //    it should always succeed even if something later in this request is
+    //    slow or gets interrupted (e.g. a customer backgrounding their phone
+    //    right after checkout, before a slow slip-photo upload finishes).
     const sheet = getSheet_();
-
-    let slipUrl = '';
-    if (data.slipImageBase64 && SLIP_DRIVE_FOLDER_ID) {
-      slipUrl = saveSlipToDrive_(data.slipImageBase64, data.orderId);
-    }
-
     sheet.appendRow([
       new Date(),
       data.orderId || '',
@@ -33,10 +32,21 @@ function doPost(e) {
       data.customerName || '',
       data.customerPhone || '',
       data.customerAddress || '',
-      slipUrl
+      '' // slip link (column 9) is backfilled below once uploaded to Drive
     ]);
+    const rowIndex = sheet.getLastRow();
 
-    notifyTelegram_(data, slipUrl);
+    // 2) Notify Telegram next — this is the most time-sensitive step, so it
+    //    runs before the optional (slower) Drive upload rather than after it.
+    notifyTelegram_(data);
+
+    // 3) Optionally archive the slip photo to Drive and backfill its link.
+    if (data.slipImageBase64 && SLIP_DRIVE_FOLDER_ID) {
+      const slipUrl = saveSlipToDrive_(data.slipImageBase64, data.orderId);
+      if (slipUrl) {
+        sheet.getRange(rowIndex, 9).setValue(slipUrl);
+      }
+    }
 
     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -77,7 +87,7 @@ function saveSlipToDrive_(base64Data, orderId) {
   }
 }
 
-function notifyTelegram_(data, slipUrl) {
+function notifyTelegram_(data) {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
 
   const caption = [
