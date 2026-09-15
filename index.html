@@ -163,7 +163,7 @@
         <div class="max-w-4xl mx-auto flex items-center justify-center text-center gap-3">
             <span class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-                <span>⚡ ส่งฟรี จัดส่งให้ทุกวัน</span>
+                <span>⚡ ส่งฟรี ปั่นใหม่ทุกออเดอร์</span>
             </span>
         </div>
     </div>
@@ -224,7 +224,7 @@
             <!-- 1:1 HERO IMAGE -->
             <div class="max-w-sm sm:max-w-md mx-auto relative rounded-[32px] overflow-hidden border-4 border-white shadow-card-lift bg-meraki-cream">
                 <div class="relative w-full aspect-square bg-meraki-cream flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1601314167099-232775949887?w=800&auto=format&fit=crop&q=80" alt="Meraki Seed Cycling Bowls" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+                    <img src="assets/header.jpg" alt="Meraki Seed Cycling" class="w-full h-full object-cover hover:scale-105 transition duration-700">
                     
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
 
@@ -476,7 +476,7 @@
                     
                     <!-- Video 1 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
                             <source src="assets/videos/review-video-1.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
@@ -485,14 +485,14 @@
                             <p class="text-xs font-bold leading-snug">"สิวคางหายเกลี้ยงเลยค่ะ"</p>
                         </div>
                         <!-- Fullscreen Btn -->
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="this.previousElementSibling.previousElementSibling.requestFullscreen()">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 2 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
                             <source src="assets/videos/review-video-2.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
@@ -500,14 +500,14 @@
                             <span class="bg-rose-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">หายปวดเมนส์</span>
                             <p class="text-xs font-bold leading-snug">"ไม่ต้องกินยาแก้ปวดแล้ว"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="this.previousElementSibling.previousElementSibling.requestFullscreen()">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 3 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
                             <source src="assets/videos/review-video-3.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
@@ -515,14 +515,14 @@
                             <span class="bg-purple-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ประจำเดือนมาปกติ</span>
                             <p class="text-xs font-bold leading-snug">"เมนส์กลับมาแล้ว ดีใจมาก"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="this.previousElementSibling.previousElementSibling.requestFullscreen()">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 4 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
                             <source src="assets/videos/review-video-4.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
@@ -530,14 +530,14 @@
                             <span class="bg-blue-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">ลดอาการบวม</span>
                             <p class="text-xs font-bold leading-snug">"ตัวเบาขึ้น ไม่อึดอัด"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="this.previousElementSibling.previousElementSibling.requestFullscreen()">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
 
                     <!-- Video 5 -->
                     <div class="snap-center shrink-0 w-[75vw] sm:w-64 aspect-[9/16] bg-meraki-cacao rounded-3xl overflow-hidden relative shadow-card-lift border border-meraki-border">
-                        <video playsinline autoplay loop muted class="w-full h-full object-cover">
+                        <video playsinline autoplay loop muted class="w-full h-full object-cover" onclick="toggleVideoSound(this)">
                             <source src="assets/videos/review-video-5.mp4" type="video/mp4">
                         </video>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
@@ -545,7 +545,7 @@
                             <span class="bg-amber-500/90 text-[10px] px-2 py-0.5 rounded font-bold mb-1 inline-block">อารมณ์เสถียร</span>
                             <p class="text-xs font-bold leading-snug">"ไม่เหวี่ยงใส่แฟนแล้วค่ะ 55"</p>
                         </div>
-                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="this.previousElementSibling.previousElementSibling.requestFullscreen()">
+                        <button class="absolute top-4 right-4 w-8 h-8 bg-black/40 backdrop-blur rounded-full text-white flex items-center justify-center hover:bg-black/60" onclick="expandVideo(this)">
                             <i class="fa-solid fa-expand text-xs"></i>
                         </button>
                     </div>
@@ -663,7 +663,7 @@
                 <i class="fa-solid fa-shield-heart text-4xl text-meraki-pink"></i>
             </div>
             <div class="space-y-2">
-                <h3 class="text-xl sm:text-2xl font-extrabold tracking-wide">ลงทุนกับสุขภาพอย่างมั่นใจ</h3>
+                <h3 class="text-xl sm:text-2xl font-extrabold">ลงทุนกับสุขภาพอย่างมั่นใจ</h3>
                 <p class="text-white/80 text-sm sm:text-base leading-relaxed max-w-xl">
                     เรารับประกันความพึงพอใจและคุณภาพของวัตถุดิบ ธรรมชาติ 100% ไร้สารเคมี ปั่นสดใหม่ทุกรอบจัดส่ง หากสินค้ามีปัญหาจากการผลิต เรายินดีดูแลและเปลี่ยนให้ทันที
                 </p>
@@ -694,93 +694,50 @@
                         <h3 class="font-bold text-base sm:text-lg text-meraki-cacao">เลือกเซ็ตและสูตรโภชนาการที่ต้องการ <span class="text-meraki-red">*</span></h3>
                     </div>
 
-                    <!-- Packages Radio Select Cards -->
-                    <div class="space-y-4">
-                        
+                    <!-- Packages Radio Select Cards (compact 3-up grid) -->
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4">
+
                         <!-- Package 1: 1 Month (DEFAULT SELECTED) -->
-                        <label class="package-item active block relative bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-red rounded-3xl p-6 cursor-pointer transition shadow-float ring-4 ring-meraki-red/20 group">
+                        <label class="package-item active relative bg-gradient-to-r from-meraki-pink-soft to-white border-2 border-meraki-red rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 cursor-pointer transition shadow-float ring-4 ring-meraki-red/20 flex flex-col items-center text-center gap-1 sm:gap-1.5">
                             <input type="radio" name="pack_select" value="set1" data-title="เซ็ตทดลอง (2 ถุง สำหรับ 1 เดือน)" data-price="1790" checked onchange="onPackageSelect(this)" class="sr-only">
-                            <div class="flex items-start justify-between gap-4">
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-3">
-                                        <span class="custom-radio w-6 h-6 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 transition-colors shadow-sm">
-                                            <span class="dot w-3 h-3 rounded-full bg-white"></span>
-                                        </span>
-                                        <span class="font-extrabold text-lg text-meraki-cacao">เซ็ตทดลอง (สำหรับ 1 เดือน)</span>
-                                    </div>
-                                    <p class="text-sm text-meraki-warmgrey pl-9 font-medium">
-                                        รวม 2 ถุง สำหรับ 1 รอบเดือน (ซองชมพู Phase 1 และ ซองแดง Phase 2)
-                                    </p>
-                                    <div class="text-xs text-meraki-red font-bold pl-9 flex items-center gap-1.5">
-                                        <span>🌿 ปั่นส่งสดใหม่ • พร้อมช้อนตวงและคู่มือ</span>
-                                    </div>
-                                </div>
-                                <div class="text-right shrink-0">
-                                    <div class="text-2xl font-helvetica font-extrabold text-meraki-cacao">฿1,790</div>
-                                    <div class="text-[10px] font-bold text-meraki-muted mt-0.5 font-helvetica">เฉลี่ย ~64.- / วัน</div>
-                                    <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full inline-block mt-1">ส่งฟรี</span>
-                                </div>
-                            </div>
+                            <span class="custom-radio w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-meraki-red bg-meraki-red flex items-center justify-center shrink-0 transition-colors shadow-sm">
+                                <span class="dot w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white"></span>
+                            </span>
+                            <span class="font-extrabold text-[11px] sm:text-base text-meraki-cacao leading-tight">1 เดือน</span>
+                            <div class="text-base sm:text-2xl font-helvetica font-extrabold text-meraki-cacao leading-none">฿1,790</div>
+                            <div class="text-[8px] sm:text-[10px] font-bold text-meraki-muted font-helvetica">~64.-/วัน</div>
+                            <span class="text-[7px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-100 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full">ส่งฟรี</span>
                         </label>
 
                         <!-- Package 2: 3 Months -->
-                        <label class="package-item block relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-3xl p-6 cursor-pointer transition shadow-card-lift">
+                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 pt-4 sm:pt-6 cursor-pointer transition shadow-card-lift flex flex-col items-center text-center gap-1 sm:gap-1.5">
                             <input type="radio" name="pack_select" value="set3" data-title="เซ็ต 3 เดือน (6 ถุง สำหรับ 3 เดือน)" data-price="4680" onchange="onPackageSelect(this)" class="sr-only">
-                            
-                            <span class="absolute -top-3 right-6 bg-meraki-cacao text-white text-xs font-extrabold px-4 py-1 rounded-full shadow-md">
-                                แนะนำสำหรับการปรับสมดุลต่อเนื่อง
+                            <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-meraki-cacao text-white text-[7px] sm:text-[10px] font-extrabold px-2 sm:px-3 py-0.5 rounded-full shadow-md whitespace-nowrap">
+                                ยอดนิยมสูงสุด
                             </span>
-
-                            <div class="flex items-start justify-between gap-4 pt-1">
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-3">
-                                        <span class="custom-radio w-6 h-6 rounded-full border-2 border-meraki-border bg-transparent flex items-center justify-center shrink-0 shadow-sm">
-                                            <span class="dot w-3 h-3 rounded-full bg-transparent"></span>
-                                        </span>
-                                        <span class="font-extrabold text-lg text-meraki-cacao">เซ็ต 3 เดือน (สำหรับ 3 เดือน)</span>
-                                    </div>
-                                    <p class="text-sm text-meraki-warmgrey pl-9 font-medium">
-                                        รวม 6 ถุง <strong class="text-meraki-red font-bold">ปั่นสดใหม่ทยอยจัดส่งให้ฟรีทีละเดือน (เดือนละ 2 ถุง)</strong> เพื่อคงความสดใหม่สูงสุด
-                                    </p>
-                                    <div class="text-xs text-meraki-red font-bold pl-9 flex items-center gap-1.5">
-                                        <span>🌿 หอมใหม่ทุกเดือน • ฟื้นฟูอาการ PMS ชัดเจน</span>
-                                    </div>
-                                </div>
-                                <div class="text-right shrink-0">
-                                    <div class="text-2xl font-helvetica font-extrabold text-meraki-red">฿4,680</div>
-                                    <div class="text-[10px] font-bold text-meraki-muted mt-0.5 font-helvetica">เฉลี่ย ~52.- / วัน</div>
-                                    <span class="text-[11px] font-bold text-rose-800 bg-rose-100 px-3 py-1 rounded-full inline-block mt-1 shadow-sm">ยอดนิยมสูงสุด</span>
-                                </div>
-                            </div>
+                            <span class="custom-radio w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-meraki-border bg-transparent flex items-center justify-center shrink-0 shadow-sm">
+                                <span class="dot w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-transparent"></span>
+                            </span>
+                            <span class="font-extrabold text-[11px] sm:text-base text-meraki-cacao leading-tight">3 เดือน</span>
+                            <div class="text-base sm:text-2xl font-helvetica font-extrabold text-meraki-red leading-none">฿4,680</div>
+                            <div class="text-[8px] sm:text-[10px] font-bold text-meraki-muted font-helvetica">~52.-/วัน</div>
+                            <span class="text-[7px] sm:text-[11px] font-bold text-rose-800 bg-rose-100 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full">คุ้มสุด</span>
                         </label>
 
                         <!-- Package 3: 6 Months -->
-                        <label class="package-item block relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-3xl p-6 cursor-pointer transition shadow-card-lift group">
+                        <label class="package-item relative bg-white border-2 border-meraki-border hover:border-meraki-red rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 cursor-pointer transition shadow-card-lift group flex flex-col items-center text-center gap-1 sm:gap-1.5">
                             <input type="radio" name="pack_select" value="set6" data-title="เซ็ต 6 เดือน (12 ถุง สำหรับ 6 เดือน)" data-price="8880" onchange="onPackageSelect(this)" class="sr-only">
-                            <div class="flex items-start justify-between gap-4">
-                                <div class="space-y-1.5">
-                                    <div class="flex items-center gap-3">
-                                        <span class="custom-radio w-6 h-6 rounded-full border-2 border-meraki-border flex items-center justify-center shrink-0 group-hover:border-meraki-red transition-colors">
-                                            <span class="dot w-3 h-3 rounded-full bg-transparent"></span>
-                                        </span>
-                                        <span class="font-extrabold text-lg text-meraki-cacao">เซ็ต 6 เดือน (สำหรับ 6 เดือน)</span>
-                                    </div>
-                                    <p class="text-sm text-meraki-warmgrey pl-9 font-medium">
-                                        รวม 12 ถุง <strong class="text-meraki-red font-bold">ปั่นสดใหม่ทยอยจัดส่งให้ฟรีทีละเดือน</strong> ฟื้นฟูวงจรฮอร์โมนครบ 6 ไซเคิล
-                                    </p>
-                                    <div class="text-xs text-meraki-red font-bold pl-9 flex items-center gap-1.5">
-                                        <span>🌿 ปั่นส่งสดใหม่ • คุ้มค่าที่สุด</span>
-                                    </div>
-                                </div>
-                                <div class="text-right shrink-0">
-                                    <div class="text-2xl font-helvetica font-extrabold text-meraki-cacao">฿8,880</div>
-                                    <div class="text-[10px] font-bold text-meraki-muted mt-0.5 font-helvetica">เฉลี่ย ~49.- / วัน</div>
-                                    <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full inline-block mt-1">ส่งฟรี</span>
-                                </div>
-                            </div>
+                            <span class="custom-radio w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-meraki-border flex items-center justify-center shrink-0 group-hover:border-meraki-red transition-colors">
+                                <span class="dot w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-transparent"></span>
+                            </span>
+                            <span class="font-extrabold text-[11px] sm:text-base text-meraki-cacao leading-tight">6 เดือน</span>
+                            <div class="text-base sm:text-2xl font-helvetica font-extrabold text-meraki-cacao leading-none">฿8,880</div>
+                            <div class="text-[8px] sm:text-[10px] font-bold text-meraki-muted font-helvetica">~49.-/วัน</div>
+                            <span class="text-[7px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-100 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full">ส่งฟรี</span>
                         </label>
 
                     </div>
+                    <p class="text-[11px] sm:text-xs text-meraki-warmgrey text-center font-medium -mt-4">ปั่นสดใหม่ทยอยจัดส่งให้ฟรีทีละเดือนสำหรับแพ็ก 3 และ 6 เดือน</p>
 
                     <!-- Step 1.2: Formula Selection -->
                     <div class="space-y-4 pt-6 border-t border-meraki-border">
@@ -1141,10 +1098,20 @@
                     ⚠️ กรุณาแอดไลน์และส่งสลิปเพื่อยืนยันออเดอร์และรับหมายเลขพัสดุ (Tracking)
                 </div>
 
-                <a id="line-direct-btn" href="#" target="_blank" class="w-full py-3.5 bg-[#06C755] hover:bg-[#05b14c] text-white rounded-full font-bold text-sm shadow-apple-glow transition flex items-center justify-center gap-2">
+                <a id="line-direct-btn" href="#" target="_blank" onclick="copyLineMessageToClipboard()" class="w-full py-3.5 bg-[#06C755] hover:bg-[#05b14c] text-white rounded-full font-bold text-sm shadow-apple-glow transition flex items-center justify-center gap-2">
                     <i class="fa-brands fa-line text-lg"></i>
                     <span>ส่งสลิปยืนยันทาง LINE ทันที</span>
                 </a>
+                <p class="text-[11px] text-meraki-muted -mt-1">แตะปุ่มนี้แล้วข้อมูลออเดอร์จะถูกคัดลอกไว้ วางในแชท LINE ได้เลยค่ะ</p>
+
+                <!-- Add-friend via QR (for desktop / cases where the deep link doesn't open the app) -->
+                <div class="flex items-center gap-3 p-3 bg-meraki-cream rounded-2xl border border-meraki-border">
+                    <img src="assets/line-qr.jpg" alt="Meraki LINE QR Code" class="w-16 h-16 rounded-lg border border-meraki-border shrink-0">
+                    <div class="text-left text-xs text-meraki-cacao">
+                        <div class="font-bold">หรือสแกน QR / เพิ่มเพื่อนด้วย LINE ID</div>
+                        <div class="font-helvetica font-extrabold text-meraki-red mt-0.5">@meraki</div>
+                    </div>
+                </div>
 
                 <button type="button" onclick="closeOrderReceipt()" class="w-full py-2 text-meraki-warmgrey text-xs font-semibold hover:text-meraki-cacao transition">
                     เสร็จสิ้น / ปิดหน้านี้
@@ -1176,7 +1143,7 @@
             <div class="flex items-center gap-1.5 mb-0.5">
                 <span id="toast-buyer-name" class="font-bold text-meraki-cacao text-[11px] truncate">คุณน้ำหวาน</span>
                 <span class="text-[8px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 shrink-0 flex items-center gap-0.5">
-                    <i class="fa-solid fa-check"></i> ซื้อแล้ว
+                    <i class="fa-solid fa-check"></i> <span id="toast-buyer-pack">ซื้อแพ็ก 3 เดือน</span>
                 </span>
             </div>
             <p id="toast-buyer-review" class="text-meraki-warmgrey text-[10px] font-medium leading-tight line-clamp-2 pr-1">
@@ -1209,7 +1176,24 @@
     <script>
         // Data Configuration
         const PROMPTPAY_NUMBER = "0812345678"; 
-        const LINE_OA_URL = "https://line.me/R/ti/p/@merakiofficial";
+        const LINE_OA_URL = "https://lin.ee/5s8V37j";
+
+        // Backend order logging (Google Sheet + LINE group notification).
+        // Set this to your deployed Google Apps Script Web App URL to activate.
+        // See google-apps-script/README.md in the project for full setup steps.
+        const ORDER_LOG_URL = ""; // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
+
+        function logOrderToBackend(payload) {
+            if (!ORDER_LOG_URL) return; // not configured yet — safe no-op
+            try {
+                fetch(ORDER_LOG_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Apps Script web apps don't return CORS headers
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                }).catch(() => { /* never block checkout on a logging failure */ });
+            } catch (err) { /* ignore */ }
+        }
 
         let currentPackageTitle = "เซ็ตทดลอง (2 ถุง สำหรับ 1 เดือน)";
         let currentPackagePrice = 1790;
@@ -1334,6 +1318,38 @@
             if (address) document.getElementById('cust_addr').value = address;
         }
 
+        // Video review cards: tap to unmute, expand button for real fullscreen with sound
+        function toggleVideoSound(video) {
+            video.muted = !video.muted;
+            if (video.paused) video.play();
+        }
+
+        function expandVideo(btn) {
+            const card = btn.closest('.snap-center');
+            const video = card ? card.querySelector('video') : null;
+            if (!video) return;
+            video.muted = false;
+            video.controls = true;
+            if (video.paused) video.play();
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitEnterFullscreen) {
+                // iOS Safari native fullscreen
+                video.webkitEnterFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.querySelectorAll('#video-reviews-slider video').forEach(v => {
+                    v.muted = true;
+                    v.controls = false;
+                });
+            }
+        });
+
         // Countdown Timer
         let totalSeconds = 5 * 3600 + 28 * 60 + 44;
         setInterval(() => {
@@ -1349,12 +1365,12 @@
 
         // Toast Reviews Slider
         const customerReviews = [
-            { initial: "N", name: "คุณน้ำหวาน", tag: "สิวฮอร์โมนที่คางลดลง", review: "“ปกติก่อนเมนส์มา สิวที่คางจะเห่อหนักมาก รอบนี้ไม่มีสิวคางขึ้นเลยแม้แต่เม็ดเดียว ผิวเนียนขึ้นมากค่ะ!”" },
-            { initial: "O", name: "คุณออย", tag: "ไม่ปวดท้องเมนส์แล้ว", review: "“วันแรกเมนส์มาไม่ต้องกินพอนสแตนเลยค่ะ ทำงานได้ปกติ คัดตึงหน้าอกน้อยลงเยอะมาก ประทับใจสุดๆ”" },
-            { initial: "P", name: "คุณแพรว", tag: "ประจำเดือนขาด กลับมาแล้ว", review: "“เมนส์ขาดไป 2 เดือนครึ่งเพราะเครียดสะสม ทานตามตารางที่แนะนำ เมื่อเช้าเมนส์กลับมาแล้วค่ะ โล่งใจมากก”" },
-            { initial: "F", name: "คุณฟ้า (เชียงใหม่)", tag: "อารมณ์ช่วง PMS เสถียรขึ้น", review: "“ช่วงก่อนเมนส์ใจนิ่งขึ้นเยอะ ไม่นอยด์ไม่เหวี่ยง รู้สึกเป็นตัวเองขึ้นเยอะ ไม่ดาวน์เหมือนแต่ก่อนค่ะ”" },
-            { initial: "G", name: "คุณเกรซ (มีภาวะ PCOS)", tag: "รอบเดือนเริ่มตรง 32 วัน", review: "“เป็น PCOS รอบเดือนเคยห่างถึง 50 วัน พอทานครบ 2 เดือน รอบเริ่มกลับมา 32 วันแล้วค่ะ ดีใจมาก”" },
-            { initial: "M", name: "คุณมุก", tag: "ลดอาการบวมน้ำ สบายตัว", review: "“ก่อนเมนส์ชอบตัวบวมใส่กางเกงไม่ได้ ตอนนี้ตัวเบาขึ้น หน้าท้องไม่อืดอัด ขับถ่ายตรงเวลาทุกเช้า”" }
+            { initial: "N", name: "คุณน้ำหวาน", pack: "3 เดือน", tag: "สิวฮอร์โมนที่คางลดลง", review: "“ปกติก่อนเมนส์มา สิวที่คางจะเห่อหนักมาก รอบนี้ไม่มีสิวคางขึ้นเลยแม้แต่เม็ดเดียว ผิวเนียนขึ้นมากค่ะ!”" },
+            { initial: "O", name: "คุณออย", pack: "6 เดือน", tag: "ไม่ปวดท้องเมนส์แล้ว", review: "“วันแรกเมนส์มาไม่ต้องกินพอนสแตนเลยค่ะ ทำงานได้ปกติ คัดตึงหน้าอกน้อยลงเยอะมาก ประทับใจสุดๆ”" },
+            { initial: "P", name: "คุณแพรว", pack: "3 เดือน", tag: "ประจำเดือนขาด กลับมาแล้ว", review: "“เมนส์ขาดไป 2 เดือนครึ่งเพราะเครียดสะสม ทานตามตารางที่แนะนำ เมื่อเช้าเมนส์กลับมาแล้วค่ะ โล่งใจมากก”" },
+            { initial: "F", name: "คุณฟ้า (เชียงใหม่)", pack: "6 เดือน", tag: "อารมณ์ช่วง PMS เสถียรขึ้น", review: "“ช่วงก่อนเมนส์ใจนิ่งขึ้นเยอะ ไม่นอยด์ไม่เหวี่ยง รู้สึกเป็นตัวเองขึ้นเยอะ ไม่ดาวน์เหมือนแต่ก่อนค่ะ”" },
+            { initial: "G", name: "คุณเกรซ (มีภาวะ PCOS)", pack: "3 เดือน", tag: "รอบเดือนเริ่มตรง 32 วัน", review: "“เป็น PCOS รอบเดือนเคยห่างถึง 50 วัน พอทานครบ 2 เดือน รอบเริ่มกลับมา 32 วันแล้วค่ะ ดีใจมาก”" },
+            { initial: "M", name: "คุณมุก", pack: "6 เดือน", tag: "ลดอาการบวมน้ำ สบายตัว", review: "“ก่อนเมนส์ชอบตัวบวมใส่กางเกงไม่ได้ ตอนนี้ตัวเบาขึ้น หน้าท้องไม่อืดอัด ขับถ่ายตรงเวลาทุกเช้า”" }
         ];
 
         let reviewIndex = 0;
@@ -1365,6 +1381,7 @@
             const item = customerReviews[reviewIndex];
             if (document.getElementById('toast-avatar')) document.getElementById('toast-avatar').innerText = item.initial;
             if (document.getElementById('toast-buyer-name')) document.getElementById('toast-buyer-name').innerText = item.name;
+            if (document.getElementById('toast-buyer-pack')) document.getElementById('toast-buyer-pack').innerText = `ซื้อแพ็ก ${item.pack}`;
             if (document.getElementById('toast-buyer-review')) document.getElementById('toast-buyer-review').innerText = item.review;
 
             toast.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
@@ -1526,8 +1543,30 @@
                 `ที่อยู่: ${addr}\n` +
                 `(แนบสลิปชำระเงินเรียบร้อยแล้วในระบบค่ะ)`
             );
-            document.getElementById('line-direct-btn').href = `${LINE_OA_URL}?text=${lineText}`;
+            // Copy the order summary so the customer can paste it into LINE chat
+            // (lin.ee short links don't reliably support a prefilled-text query param)
+            window.pendingLineMessage = decodeURIComponent(lineText);
+            document.getElementById('line-direct-btn').href = LINE_OA_URL;
+
+            logOrderToBackend({
+                orderId: orderId,
+                packageTitle: currentPackageTitle,
+                formulaTitle: currentFormulaTitle,
+                amount: currentPackagePrice,
+                customerName: name,
+                customerPhone: phone,
+                customerAddress: addr,
+                slipImageBase64: slipDataUrl,
+                timestamp: new Date().toISOString()
+            });
+
             document.getElementById('order-modal').classList.remove('hidden');
+        }
+
+        function copyLineMessageToClipboard() {
+            if (window.pendingLineMessage && navigator.clipboard) {
+                navigator.clipboard.writeText(window.pendingLineMessage).catch(() => {});
+            }
         }
 
         function closeOrderReceipt() {
