@@ -147,7 +147,20 @@
         @keyframes loader-dots1 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         @keyframes loader-dots3 { 0% { transform: scale(1); } 100% { transform: scale(0); } }
         @keyframes loader-dots2 { 0% { transform: translate(0, 0); } 100% { transform: translate(24px, 0); } }
-        
+
+        @keyframes attn-shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+        .attn-highlight {
+            animation: attn-shake 0.5s ease-in-out;
+            border-color: #B71C1C !important;
+            box-shadow: 0 0 0 4px rgba(183, 28, 28, 0.18);
+        }
+
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -899,7 +912,7 @@
                                 แนบหลักฐานการโอนเงิน (สลิป): <span class="text-meraki-red">*</span>
                             </label>
 
-                            <div onclick="document.getElementById('slip-file').click()" class="border-2 border-dashed border-meraki-border hover:border-meraki-red bg-white rounded-3xl p-6 text-center cursor-pointer transition">
+                            <div id="slip-upload-box" onclick="document.getElementById('slip-file').click()" class="border-2 border-dashed border-meraki-border hover:border-meraki-red bg-white rounded-3xl p-6 text-center cursor-pointer transition">
                                 <input type="file" id="slip-file" accept="image/*" class="hidden" onchange="handleSlipFile(event)">
                                 
                                 <div id="slip-empty-view" class="space-y-2">
@@ -1218,7 +1231,7 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast-notify" class="fixed top-20 right-4 z-50 bg-meraki-cacao text-white text-sm font-bold py-3 px-5 rounded-2xl shadow-card-lift hidden transition-all">
+    <div id="toast-notify" class="fixed top-20 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-xs z-50 bg-meraki-cacao text-white text-sm font-bold py-3 px-5 rounded-2xl shadow-card-lift hidden transition-all">
         <span id="toast-text">คัดลอกเลขบัญชีเรียบร้อยแล้ว</span>
     </div>
 
@@ -1680,7 +1693,17 @@
             const addr = document.getElementById('cust_addr').value.trim();
 
             if (!slipDataUrl) {
-                showToast("กรุณาแนบภาพสลิปการโอนเงินก่อนยืนยันค่ะ");
+                showToast("อย่าลืมแนบรูปสลิปการโอนเงินด้วยนะคะ เพื่อให้ทีมงานตรวจสอบและจัดส่งให้ไวที่สุดค่ะ 💗");
+
+                const slipBox = document.getElementById('slip-upload-box');
+                if (slipBox) {
+                    slipBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    slipBox.classList.remove('attn-highlight');
+                    // Force reflow so the animation re-triggers if it was just removed
+                    void slipBox.offsetWidth;
+                    slipBox.classList.add('attn-highlight');
+                    setTimeout(() => slipBox.classList.remove('attn-highlight'), 1600);
+                }
                 return;
             }
 
